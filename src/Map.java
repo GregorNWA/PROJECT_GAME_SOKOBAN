@@ -1,14 +1,20 @@
+import java.util.SortedMap;
+
 public class Map {
 
     private String[][] elements;
     private int rows;
     private int columns;
 
+
     public Map(int new_rows, int new_columns){
     this.elements = new String[new_rows][new_columns];
     this.rows = new_rows;
     this.columns = new_columns;
     }
+    static String S = "Stone";
+    static String P = "Player";
+    static String G = "Grass";
 
 
     //Getters
@@ -48,6 +54,7 @@ public class Map {
         result +="\n";
         return result;
     }
+
 /*
     public int PlayerPosition(){
         for (int i=0; i<rows;i++) {
@@ -58,35 +65,40 @@ public class Map {
             }
             return rows;
         }
+    }   */
+
+    public void MoveUp(Player PlayUp){
+        PlayUp.setRowPos(PlayUp.getRowPos()+1);
+        int r;int c;
+        r = PlayUp.getRowPos();
+        c = PlayUp.getColPos();
+
 
     }
 
-
-
-
-    public String MoveUp(){
-    }
-    */
 
     public static void main(String[] args) {
-        String S = "Stone";
-        String P = "Player";
-        String G = "Grass";
 
         String[][] MAP = {
-                {S, S, S},
-                {S, P, S},
+                {S, G, S},
+                {G, P, G},
                 {G, G, G},
                 {S, S, S}};
 
         Map MAP1 = new Map(4,3);
         MAP1.setElements(MAP);
 
+        Player Player1 = new Player(2,2);
         System.out.println(MAP1);
+        System.out.println(Player1.getColPos());
+        System.out.println(Player1.getRowPos());
+        MAP1.MoveUp(Player1);
+        System.out.println(Player1.getColPos());
+        System.out.println(Player1.getRowPos());
+
+
 
         //Change Player Position
-
-
 
     }
 }

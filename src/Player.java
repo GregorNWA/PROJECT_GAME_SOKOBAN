@@ -7,4 +7,20 @@ public class Player {
         this.colPos=new_colPos;
 
     };
+
+    public void setColPos(int colPos) {
+        this.colPos = colPos;
+    }
+
+    public void setRowPos(int rowPos) {
+        this.rowPos = rowPos;
+    }
+
+    public int getColPos() {
+        return colPos;
+    }
+
+    public int getRowPos() {
+        return rowPos;
+    }
 }
