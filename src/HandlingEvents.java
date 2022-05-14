@@ -7,6 +7,7 @@ import javax.swing.*;
 
 public class HandlingEvents implements Runnable {
 //TIMoTHées sucks ELi smal cock nice cock
+    //THIS IS INITIAL MAP SETUP
     JFrame frame;
     int myX = 400;
     int myY = 400;
