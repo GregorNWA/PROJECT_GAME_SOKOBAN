@@ -6,7 +6,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class HandlingEvents implements Runnable {
-
+//TIMoTHées sucks ELi smal cock nice cock
     JFrame frame;
     int myX = 400;
     int myY = 400;
