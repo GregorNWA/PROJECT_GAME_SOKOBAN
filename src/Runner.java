@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,18 +42,21 @@ public class Runner {
         };     //0,1,2,3,4,5*/
 
         //Map move down
-        /*String[][] MAP = {
-               //0,1,2,3,4,5
+        String[][] Level = {
+                //0,1,2,3,4,5
                 {S,S,P,S,S,S},//0
-                {G,G,C,G,C,S},//1
-                {G,G,M,G,C,S},//2
-                {S,G,M,G,S,S},//3
-                {S,G,G,G,S,S},//4
-                {S,S,G,S,S,G},//5
+                {M,C,C,C,M,S},//1
+                {G,G,G,G,G,S},//2
+                {S,G,G,G,G,S},//3
+                {S,G,M,G,G,S},//4
+                {S,G,G,G,S,S},//5
+                {S,G,G,G,S,S},//6
+                {S,S,G,S,S,S},//7
+                {S,S,S,S,S,S},//8
         };     //0,1,2,3,4,5*/
 
         //MAP move right
-        String[][] MAP = {
+        String[][] Level2 = {
                 //0,1,2,3,4,5
                 {S, S, S, S, C, S},//0
                 {G, G, G, G, G, S},//1
@@ -63,9 +65,19 @@ public class Runner {
                 {S, G, M, G, S, S},//4
                 {S, S, G, S, S, G},//5
         };     //0,1,2,3,4,5
+        int round=1;
+        int lvl1rows=Level.length;
+        int lvl1cols=Level[0].length;
+        int lvl2rows=Level.length;
+        int lvl2cols=Level[0].length;
+        //if(round==1){
+            Map MAP1 = new Map(lvl1rows, lvl1cols);
+            MAP1.setElements(Level);
+        /*}else if(round==2){
+            Map MAP1 = new Map(lvl2rows, lvl1cols);
+            MAP1.setElements(Level);
 
-        Map MAP1 = new Map(6, 6);
-        MAP1.setElements(MAP);
+        }*/
 
         //Creating new Player depending on "P" in Matrix
         Player Player1 = null;
@@ -102,6 +114,7 @@ public class Runner {
 
         Container contentPane = frame.getContentPane();
         Player finalPlayer = Player1;
+        Player finalPlayer1 = Player1;
         KeyListener listener = new KeyListener() {
             @Override
             public void keyPressed(KeyEvent event) {
@@ -134,9 +147,28 @@ public class Runner {
                         break;
 
                 }
-                System.out.print("\033[H\033[2J");
-                System.out.flush();
+
                 System.out.println(MAP1);
+                System.out.println("PlayerMark: "+ finalPlayer.getIsOnMark());
+
+
+
+                int count=0;
+                {
+                    for (Crate crate : Crates) {
+                        if (crate.IsOnMark) {
+                            count++;
+                        }
+                    }
+                    if (count >= Crates.size()) {
+                        System.out.println("SIEG");
+                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                        MAP1.setElements(Level);
+                        System.out.println(MAP1);
+                    }
+                    count=0;
+                }
+
 
 
 
