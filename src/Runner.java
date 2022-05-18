@@ -30,7 +30,7 @@ public class Runner {
 
 
     static JLabel[] Graphicmap = new JLabel[36];
-
+    static int win =0;
 
     public static void main(String[] args) {
         //Note: Add new Player with Position from Matrix, not manual positions)
@@ -57,14 +57,14 @@ public class Runner {
 
         //MAP move right
         String[][] Level_2 = {
-                //0,1,2,3,4,5
+               //0, 1, 2, 3, 4, 5
                 {S, S, S, S, S, S},//0
-                {S, G, G, G, G, S},//1
-                {S, G, P, G, C, S},//2
-                {S, M, C, G, G, S},//3
-                {S, G, M, G, C, S},//4
-                {S, S, G, S, S, S},//5
-        };     //0,1,2,3,4,5
+                {S, P, G, G, G, S},//1
+                {S, G, M, C, G, S},//2
+                {S, M, M, C, G, S},//3
+                {S, G, M, C, G, S},//4
+                {S, S, S, S, S, S},//5
+        };     //0, 1, 2, 3, 4, 5
 
 
         //automatic matrix size recognition
@@ -144,13 +144,8 @@ public class Runner {
             }
         }
 
-        int Crates_nbr = Crates.size();
+
         //System.out.println(Crates_nbr);
-
-        /*for (Crate crate : Crates){
-            System.out.println(" Row "+crate.getRowPos()+" COL:"+ crate.colPos);
-        }*/
-
 
         System.out.println(MAP1);
 
@@ -167,8 +162,8 @@ public class Runner {
         for (int i = 0; i < Level_1.length; i++) {  // avoid using "magic" numbers
             for (int j = 0; j < Level_1[i].length; j++) {
                 label = new JLabel(MAP1.getElements(i, j));
-                label.setText(""); //to delete the string from the matrix map (you can try without
-                if (MAP1.getSingleElement(i, j) == P) {//check if it is a plyer
+                label.setText(""); //to delete the string from the matrix map (you can try without)
+                if (MAP1.getSingleElement(i, j) == P) {//check if it is a player
                     label.setIcon(playerImg); //give this specific label the player picture
                 } else if (MAP1.getSingleElement(i, j) == G) { //same
                     label.setIcon(grassImg);
@@ -219,35 +214,73 @@ public class Runner {
 
                     switch (e.getKeyCode()) {
                         case KeyEvent.VK_RIGHT:
-                            MAP1.MoveRight(finalPlayer, MAP1, Crates);
+                            MAP1.MoveRight(Player1[0], MAP1, Crates);
                             break;
                         case KeyEvent.VK_LEFT:
-                            MAP1.MoveLeft(finalPlayer, MAP1, Crates);
+                            MAP1.MoveLeft(Player1[0], MAP1, Crates);
                             break;
                         case KeyEvent.VK_DOWN:
-                            MAP1.MoveDown(finalPlayer, MAP1, Crates);
+                            MAP1.MoveDown(Player1[0], MAP1, Crates);
                             break;
                         case KeyEvent.VK_UP:
-                            MAP1.MoveUp(finalPlayer, MAP1, Crates);
+                            MAP1.MoveUp(Player1[0], MAP1, Crates);
                             break;
 
                     }
                     //-------Victory system
                     int count = 0;
-                    {
                         for (Crate crate : Crates) {
                             if (crate.IsOnMark) {
                                 count++;
                             }
                         }
-                        if (count >= Crates.size()) {
-                            System.out.println("SIEG");
-                            //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                            MAP1.setElements(Level_2);
+                        if ((count >= Crates.size())) {
 
+                            if((win == 0)) {
+                                //first level
+                                System.out.println("SIEG\n");
+                                //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                                MAP1.setElements(Level_2);
+
+                                for (int i = 0; i < MAP1.getRows(); i++) {
+                                    for (int j = 0; j < MAP1.getColumns(); j++) {
+                                        if (MAP1.getSingleElement(i, j) == P) {
+                                            Player1[0] = new Player(i, j, false);
+                                        }
+                                    }
+                                }
+
+                                Crates.clear();
+                                //Creating new Crates depending on the "C" in the Matrix
+                                for (int i = 0; i < MAP1.getRows(); i++) {
+                                    for (int j = 0; j < MAP1.getColumns(); j++) {
+                                        if (MAP1.getSingleElement(i, j) == C) {
+                                            Crates.add(new Crate(i, j, false));
+
+                                        }
+                                    }
+                                    count = 0;
+                                }
+                            }
+                            win = 1;
+                            //count=0;
+                            for (Crate crate : Crates) {
+                                if (crate.IsOnMark) {
+                                    count++;
+                                }
+                            }
+                            if (count >= Crates.size()) {
+                                System.out.println("SIEG");
+                                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                                System.out.println("j'ai win fdp");
                         }
-                        count=0;
+                            count=0;
+
                     }
+                    for (Crate crate : Crates){
+                        System.out.println(crate +"On mark : " +crate.getIsOnMark());
+                    }
+
                     //-----end victory system
                     System.out.println(MAP1);
                     //JPanel gridPanel2 = new JPanel(new GridLayout(6, 6));
@@ -263,13 +296,17 @@ public class Runner {
                             label.setText("");
                             if (MAP1.getSingleElement(i, j) == P) {
                                 label.setIcon(finalPlayerImg);
-                            } else if (MAP1.getSingleElement(i, j) == G) {
+                            }
+                            else if (MAP1.getSingleElement(i, j) == G) {
                                 label.setIcon(finalGrassImg);
-                            } else if (MAP1.getSingleElement(i, j) == S) {
+                            }
+                            else if (MAP1.getSingleElement(i, j) == S) {
                                 label.setIcon(finalStoneImg);
-                            } else if (MAP1.getSingleElement(i, j) == M) {
+                            }
+                            else if (MAP1.getSingleElement(i, j) == M) {
                                 label.setIcon(finalMarkImg);
-                            } else if (MAP1.getSingleElement(i, j) == C) {
+                            }
+                            else if (MAP1.getSingleElement(i, j) == C) {
                                 for (Crate crate : Crates) {
                                     if (crate.IsOnMark == false) {
                                         label.setIcon(finalCrateImg);
