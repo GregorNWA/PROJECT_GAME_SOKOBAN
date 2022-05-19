@@ -29,42 +29,40 @@ public class Runner {
     static final String MC = "  [.]  ";
 
 
-    static JLabel[] Graphicmap = new JLabel[36];
+    static JLabel[] Graphicmap = new JLabel[100];
     static int win =0;
 
     public static void main(String[] args) {
-        //Note: Add new Player with Position from Matrix, not manual positions)
-        /*String[][] MAP = {
-               //0,1,2,3,4,5
-                {S,S,G,S,S,S},//0
-                {G,G,G,G,C,S},//1
-                {G,G,M,G,C,S},//2
-                {S,G,M,G,S,S},//3
-                {S,G,C,G,S,S},//4
-                {S,S,P,S,S,G},//5
-        };     //0,1,2,3,4,5*/
-
-        //Map move down
         String[][] Level_1 = {
-                //0,1,2,3,4,5
-                {G, G, P, G, G, G},//0
-                {M, C, C, C, M, G},//1
-                {G, M, M, M, G, G},//2
-                {G, G, M, G, G, G},//3
-                {G, G, G, G, G, G},//4
-                {G, G, G, G, G, G},//5
-        };     //0,1,2,3,4,5
 
-        //MAP move right
+               //0, 1, 2, 3, 4, 5, 6, 7, 8
+                {S, S, S, S, S, S, S, S, G},//0
+                {S, G, G, S, G, G, G, S, G},//1
+                {S, G, G, G, C, G, G, S, G},//2
+                {S, G, G, S, C, C, G, S, G},//3
+                {S, S, G, S, G, G, G, S, G},//4
+                {S, M, M, G, C, S, G, S, G},//5
+                {S, M, M, G, G, G, P, S, G},//6
+                {S, S, S, S, S, S, S, S, G},//7
+                {G, G, G, G, G, G, G, G, G},//8
+               //0, 1, 2, 3, 4, 5, 6, 7, 8
+        };
+
+        //Map level 2
         String[][] Level_2 = {
-               //0, 1, 2, 3, 4, 5
-                {S, S, S, S, S, S},//0
-                {S, P, G, G, G, S},//1
-                {S, G, M, C, G, S},//2
-                {S, M, M, C, G, S},//3
-                {S, G, M, C, G, S},//4
-                {S, S, S, S, S, S},//5
-        };     //0, 1, 2, 3, 4, 5
+                //0, 1, 2, 3, 4, 5, 6, 7, 8
+                {S, S, S, S, S, S, S, S, S},//0
+                {S, M, M, G, C, G, M, M, S},//1
+                {S, M, M, C, C, G, M, M, S},//2
+                {S, G, G, C, G, C, C, G, S},//3
+                {S, C, C, G, S, G, C, C, S},//4
+                {S, G, C, C, G, C, G, G, S},//5
+                {S, M, M, G, C, C, M, M, S},//6
+                {S, M, M, G, C, P, M, M, S},//7
+                {S, S, S, S, S, S, S, S, S},//8
+                //0, 1, 2, 3, 4, 5, 6, 7, 8
+
+        };
 
 
         //automatic matrix size recognition
@@ -76,14 +74,6 @@ public class Runner {
         Map MAP1 = new Map(lvl1rows, lvl1cols);
         MAP1.setElements(Level_1);
 
-        //MAP1.setElements(Level_1);
-        /*if (blabla level 1){
-            JPanel gridPanel = new JPanel(new GridLayout(lvl1rows, lvl1cols));
-        }
-        else if (/*blabla lvl2){
-            JPanel gridPanel = new JPanel(new GridLayout(lvl2rows, lvl2cols));
-
-        }*/
 
         JPanel gridPanel = new JPanel(new GridLayout(lvl1rows, lvl1cols));
 
@@ -133,7 +123,7 @@ public class Runner {
             }
         }
 
-
+        //Same for the crates
         List<Crate> Crates = new ArrayList<Crate>();
         //Creating new Crates depending on the "C" in the Matrix
         for (int i = 0; i < MAP1.getRows(); i++) {
@@ -143,24 +133,20 @@ public class Runner {
                 }
             }
         }
-
-
-        //System.out.println(Crates_nbr);
-
         System.out.println(MAP1);
 
 
         JFrame frame = new JFrame("Key Listener");
         JPanel panel = (JPanel) frame.getContentPane();
-        panel.setPreferredSize(new Dimension(384, 384));
+        panel.setPreferredSize(new Dimension(64*lvl1rows, 64*lvl1cols));
 
         Container contentPane = frame.getContentPane();
 
         //No need to press a key to print with this
         gridPanel.removeAll();
         JLabel label = null;
-        for (int i = 0; i < Level_1.length; i++) {  // avoid using "magic" numbers
-            for (int j = 0; j < Level_1[i].length; j++) {
+        for (int i = 0; i < Level_1.length; i++) { // goes through
+            for (int j = 0; j < Level_1[i].length; j++) { //the matrix
                 label = new JLabel(MAP1.getElements(i, j));
                 label.setText(""); //to delete the string from the matrix map (you can try without)
                 if (MAP1.getSingleElement(i, j) == P) {//check if it is a player
@@ -172,13 +158,26 @@ public class Runner {
                 } else if (MAP1.getSingleElement(i, j) == M) {
                     label.setIcon(markImg);
                 } else if (MAP1.getSingleElement(i, j) == C) {
-                    for (Crate crate : Crates) { //try to go through every crates but not working
+
+                    for(int k = 0; k < Crates.size();k++){ //move through the list
+                        Crate element = Crates.get(k); //creates a create with receive the crate actually tested
+                        if(element.getRowPos()==i && element.getColPos()==j) { // for this crate especially test IsOnMark
+                            if (element.IsOnMark == false) {
+                                label.setIcon(crateImg);
+                            } else if (element.IsOnMark) {
+                                label.setIcon(cratemImg);
+                            }
+                        }
+                    }
+
+                    /*for (Crate crate : Crates) { //try to go through every crates but not working
                         if (crate.IsOnMark == false) {
                             label.setIcon(crateImg);
                         } else if (crate.IsOnMark) { //only once the last crate (in the list) is on a mark, then put every crates as marked crate
                             label.setIcon(cratemImg);
                         }
                     }
+                }*/
                 }
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.setVerticalAlignment(SwingConstants.CENTER);
@@ -238,7 +237,7 @@ public class Runner {
 
                             if((win == 0)) {
                                 //first level
-                                System.out.println("SIEG\n");
+                                System.out.println("Level 1 clear\n");
                                 //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                                 MAP1.setElements(Level_2);
 
@@ -250,13 +249,12 @@ public class Runner {
                                     }
                                 }
 
-                                Crates.clear();
+                                Crates.clear(); //don't remember what it does, but useful
                                 //Creating new Crates depending on the "C" in the Matrix
                                 for (int i = 0; i < MAP1.getRows(); i++) {
                                     for (int j = 0; j < MAP1.getColumns(); j++) {
                                         if (MAP1.getSingleElement(i, j) == C) {
                                             Crates.add(new Crate(i, j, false));
-
                                         }
                                     }
                                     count = 0;
@@ -270,27 +268,20 @@ public class Runner {
                                 }
                             }
                             if (count >= Crates.size()) {
-                                System.out.println("SIEG");
+                                System.out.println("Victory!");
                                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                                System.out.println("j'ai win fdp");
                         }
                             count=0;
-
                     }
                     for (Crate crate : Crates){
                         System.out.println(crate +"On mark : " +crate.getIsOnMark());
                     }
-
                     //-----end victory system
                     System.out.println(MAP1);
-                    //JPanel gridPanel2 = new JPanel(new GridLayout(6, 6));
                     gridPanel.removeAll();
-                    //gridPanel.revalidate();
-                    //gridPanel.repaint();
                     JLabel label = null;
-
-                    //same as before
-                    for (int i = 0; i < Level_1.length; i++) {  // avoid using "magic" numbers
+                    //Same as before
+                    for (int i = 0; i < Level_1.length; i++) {
                         for (int j = 0; j < Level_1[i].length; j++) {
                             label = new JLabel(MAP1.getElements(i, j));
                             label.setText("");
@@ -307,37 +298,29 @@ public class Runner {
                                 label.setIcon(finalMarkImg);
                             }
                             else if (MAP1.getSingleElement(i, j) == C) {
-                                for (Crate crate : Crates) {
+                                for(int k = 0; k < Crates.size();k++){
+                                    Crate element = Crates.get(k);
+                                    if(element.getRowPos()==i && element.getColPos()==j) {
+                                        if (element.IsOnMark == false) {
+                                            label.setIcon(finalCrateImg);
+                                        } else if (element.IsOnMark) {
+                                            label.setIcon(finalCratemImg);
+                                        }
+                                    }
+                                }
+                                /*for (Crate crate : Crates) {
                                     if (crate.IsOnMark == false) {
                                         label.setIcon(finalCrateImg);
                                     } else if (crate.IsOnMark) {
                                         label.setIcon(finalCratemImg);
                                     }
-                                }
+                                }*/
                             }
                             label.setHorizontalAlignment(SwingConstants.CENTER);
-                            //label.repaint();
-                            //Graphicmap[4 * i + j] = label;
-                            //gridPanel2.removeAll();
-                            //gridPanel2.add(label);
                             gridPanel.add(label);
-
-                            //label.repaint();
-                            //frame.repaint();
-
                         }
                     }
-                    //SwingUtilities.updateComponentTreeUI(frame);
-                    //frame.removeAll();
-                    //panel.updateUI();
-                    //frame.update();
-                    //frame.add(gridPanel2);  //maybe to put again
-                    //System.out.println(frame);
-                    //frame.add(gridPanel);
-                    //System.out.println("here ");
-                    //frame.pack();
                     frame.setVisible(true);
-
                 }
             };
 
@@ -345,7 +328,6 @@ public class Runner {
             JTextField textField = new JTextField();
             textField.addKeyListener(listener);
             contentPane.add(textField, BorderLayout.NORTH);
-            //gridPanel.add(textField, BorderLayout.NORTH);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(gridPanel);
             frame.pack();
