@@ -32,38 +32,45 @@ public class Runner {
     static JLabel[] Graphicmap = new JLabel[100];
     static int win =0;
 
+    //should move to MAP
+    static String[][] Level_1 = {
+
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+            {S, S, S, S, S, S, S, S, G},//0
+            {S, G, G, S, G, G, G, S, G},//1
+            {S, G, G, G, C, G, G, S, G},//2
+            {S, G, G, S, C, C, G, S, G},//3
+            {S, S, G, S, G, G, G, S, G},//4
+            {S, M, M, G, C, S, G, S, G},//5
+            {S, M, M, G, G, G, P, S, G},//6
+            {S, S, S, S, S, S, S, S, G},//7
+            {G, G, G, G, G, G, G, G, G},//8
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+    };
+    //Map level 2
+    static String[][] Level_2 = {
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+            {S, S, S, S, S, S, S, S, S},//0
+            {S, M, M, G, C, G, M, M, S},//1
+            {S, M, M, C, C, G, M, M, S},//2
+            {S, G, G, C, G, C, C, G, S},//3
+            {S, C, C, G, S, G, C, C, S},//4
+            {S, G, C, C, G, C, G, G, S},//5
+            {S, M, M, G, C, C, M, M, S},//6
+            {S, M, M, G, C, P, M, M, S},//7
+            {S, S, S, S, S, S, S, S, S},//8
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+    };
+
+    public static String[][] getLevel_1() {
+        return Level_1;
+    }
+
+    public static String[][] getLevel_2() {
+        return Level_2;
+    }
+
     public static void main(String[] args) {
-        String[][] Level_1 = {
-
-               //0, 1, 2, 3, 4, 5, 6, 7, 8
-                {S, S, S, S, S, S, S, S, G},//0
-                {S, G, G, S, G, G, G, S, G},//1
-                {S, G, G, G, C, G, G, S, G},//2
-                {S, G, G, S, C, C, G, S, G},//3
-                {S, S, G, S, G, G, G, S, G},//4
-                {S, M, M, G, C, S, G, S, G},//5
-                {S, M, M, G, G, G, P, S, G},//6
-                {S, S, S, S, S, S, S, S, G},//7
-                {G, G, G, G, G, G, G, G, G},//8
-               //0, 1, 2, 3, 4, 5, 6, 7, 8
-        };
-
-        //Map level 2
-        String[][] Level_2 = {
-                //0, 1, 2, 3, 4, 5, 6, 7, 8
-                {S, S, S, S, S, S, S, S, S},//0
-                {S, M, M, G, C, G, M, M, S},//1
-                {S, M, M, C, C, G, M, M, S},//2
-                {S, G, G, C, G, C, C, G, S},//3
-                {S, C, C, G, S, G, C, C, S},//4
-                {S, G, C, C, G, C, G, G, S},//5
-                {S, M, M, G, C, C, M, M, S},//6
-                {S, M, M, G, C, P, M, M, S},//7
-                {S, S, S, S, S, S, S, S, S},//8
-                //0, 1, 2, 3, 4, 5, 6, 7, 8
-
-        };
-
 
         //automatic matrix size recognition
         int lvl1rows = Level_1.length;
@@ -209,110 +216,7 @@ public class Runner {
                 public void keyTyped(KeyEvent event) {
                 }
 
-                private void printEventInfo(KeyEvent e) {
 
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_RIGHT:
-                            MAP1.MoveRight(Player1[0], MAP1, Crates);
-                            break;
-                        case KeyEvent.VK_LEFT:
-                            MAP1.MoveLeft(Player1[0], MAP1, Crates);
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            MAP1.MoveDown(Player1[0], MAP1, Crates);
-                            break;
-                        case KeyEvent.VK_UP:
-                            MAP1.MoveUp(Player1[0], MAP1, Crates);
-                            break;
-
-                    }
-                    //-------Victory system
-                    int count = 0;
-                        for (Crate crate : Crates) {
-                            if (crate.IsOnMark) {
-                                count++;
-                            }
-                        }
-                        if ((count >= Crates.size())) {
-
-                            if((win == 0)) {
-                                //first level
-                                System.out.println("Level 1 clear\n");
-                                //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                                MAP1.setElements(Level_2);
-
-                                for (int i = 0; i < MAP1.getRows(); i++) {
-                                    for (int j = 0; j < MAP1.getColumns(); j++) {
-                                        if (MAP1.getSingleElement(i, j) == P) {
-                                            Player1[0] = new Player(i, j, false);
-                                        }
-                                    }
-                                }
-
-                                Crates.clear(); //don't remember what it does, but useful
-                                //Creating new Crates depending on the "C" in the Matrix
-                                for (int i = 0; i < MAP1.getRows(); i++) {
-                                    for (int j = 0; j < MAP1.getColumns(); j++) {
-                                        if (MAP1.getSingleElement(i, j) == C) {
-                                            Crates.add(new Crate(i, j, false));
-                                        }
-                                    }
-                                    count = 0;
-                                }
-                            }
-                            win = 1;
-                            //count=0;
-                            for (Crate crate : Crates) {
-                                if (crate.IsOnMark) {
-                                    count++;
-                                }
-                            }
-                            if (count >= Crates.size()) {
-                                System.out.println("Victory!");
-                                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                        }
-                            count=0;
-                    }
-                    for (Crate crate : Crates){
-                        System.out.println(crate +"On mark : " +crate.getIsOnMark());
-                    }
-                    //-----end victory system
-                    System.out.println(MAP1);
-                    gridPanel.removeAll();
-                    JLabel label = null;
-                    //Same as before
-                    for (int i = 0; i < Level_1.length; i++) {
-                        for (int j = 0; j < Level_1[i].length; j++) {
-                            label = new JLabel();
-                            //label.setText("");
-                            if (MAP1.getSingleElement(i, j) == P) {
-                                label.setIcon(finalPlayerImg);
-                            }
-                            else if (MAP1.getSingleElement(i, j) == G) {
-                                label.setIcon(finalGrassImg);
-                            }
-                            else if (MAP1.getSingleElement(i, j) == S) {
-                                label.setIcon(finalStoneImg);
-                            }
-                            else if (MAP1.getSingleElement(i, j) == M) {
-                                label.setIcon(finalMarkImg);
-                            }
-                            else if (MAP1.getSingleElement(i, j) == C) {
-                                for(int k = 0; k < Crates.size();k++){
-                                    Crate element = Crates.get(k);
-                                        if (element.IsOnMark == false) {
-                                            label.setIcon(finalCrateImg);
-                                        } else if (element.IsOnMark) {
-                                            label.setIcon(finalCratemImg);
-                                        }
-                                }
-                            }
-                            label.setHorizontalAlignment(SwingConstants.CENTER);
-                            gridPanel.add(label);
-                        }
-                    }
-                    frame.setVisible(true);
-                }
             };
 
             // Create stuff
@@ -326,4 +230,5 @@ public class Runner {
 
         }
     }
+
 }
