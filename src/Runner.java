@@ -147,8 +147,8 @@ public class Runner {
         JLabel label = null;
         for (int i = 0; i < Level_1.length; i++) { // goes through
             for (int j = 0; j < Level_1[i].length; j++) { //the matrix
-                label = new JLabel(MAP1.getElements(i, j));
-                label.setText(""); //to delete the string from the matrix map (you can try without)
+                label = new JLabel();
+                //label.setText(""); //to delete the string from the matrix map (you can try without)
                 if (MAP1.getSingleElement(i, j) == P) {//check if it is a player
                     label.setIcon(playerImg); //give this specific label the player picture
                 } else if (MAP1.getSingleElement(i, j) == G) { //same
@@ -283,8 +283,8 @@ public class Runner {
                     //Same as before
                     for (int i = 0; i < Level_1.length; i++) {
                         for (int j = 0; j < Level_1[i].length; j++) {
-                            label = new JLabel(MAP1.getElements(i, j));
-                            label.setText("");
+                            label = new JLabel();
+                            //label.setText("");
                             if (MAP1.getSingleElement(i, j) == P) {
                                 label.setIcon(finalPlayerImg);
                             }
@@ -300,21 +300,12 @@ public class Runner {
                             else if (MAP1.getSingleElement(i, j) == C) {
                                 for(int k = 0; k < Crates.size();k++){
                                     Crate element = Crates.get(k);
-                                    if(element.getRowPos()==i && element.getColPos()==j) {
                                         if (element.IsOnMark == false) {
                                             label.setIcon(finalCrateImg);
                                         } else if (element.IsOnMark) {
                                             label.setIcon(finalCratemImg);
                                         }
-                                    }
                                 }
-                                /*for (Crate crate : Crates) {
-                                    if (crate.IsOnMark == false) {
-                                        label.setIcon(finalCrateImg);
-                                    } else if (crate.IsOnMark) {
-                                        label.setIcon(finalCratemImg);
-                                    }
-                                }*/
                             }
                             label.setHorizontalAlignment(SwingConstants.CENTER);
                             gridPanel.add(label);
