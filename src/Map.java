@@ -23,6 +23,44 @@ public class Map {
     static final String M  = "  ()  ";
     static final String MC = "  [.]  ";
 
+    static String[][] Level_1 = {
+
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+            {S, S, S, S, S, S, S, S, G},//0
+            {S, G, G, S, G, G, G, S, G},//1
+            {S, G, G, G, C, G, G, S, G},//2
+            {S, G, G, S, C, C, G, S, G},//3
+            {S, S, G, S, G, G, G, S, G},//4
+            {S, M, M, G, C, S, G, S, G},//5
+            {S, M, M, G, G, G, P, S, G},//6
+            {S, S, S, S, S, S, S, S, G},//7
+            {G, G, G, G, G, G, G, G, G},//8
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+    };
+    //Map level 2
+    static String[][] Level_2 = {
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+            {S, S, S, S, S, S, S, S, S},//0
+            {S, M, M, G, C, G, M, M, S},//1
+            {S, M, M, C, C, G, M, M, S},//2
+            {S, G, G, C, G, C, C, G, S},//3
+            {S, C, C, G, S, G, C, C, S},//4
+            {S, G, C, C, G, C, G, G, S},//5
+            {S, M, M, G, C, C, M, M, S},//6
+            {S, M, M, G, C, P, M, M, S},//7
+            {S, S, S, S, S, S, S, S, S},//8
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+    };
+
+    public static String[][] getLevel_1() {
+        return Level_1;
+    }
+
+    public static String[][] getLevel_2() {
+        return Level_2;
+    }
+
+
     //Getters
     public int getColumns() {
         return columns;
