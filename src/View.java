@@ -24,14 +24,21 @@ public class View {
 
     //Controller controller = new Controller(mapV, view);
 
+    JPanel gridPanel = new JPanel(new GridLayout(Map.lvl1rows, Map.lvl1cols));
+    ImageIcon crateImg = new ImageIcon("crate.png");
+    ImageIcon grassImg = new ImageIcon("blank.png");
+    ImageIcon stoneImg = new ImageIcon("wall.png");
+    ImageIcon playerImg = new ImageIcon("player.png");
+    ImageIcon cratemImg = new ImageIcon("cratemarked.png");
+    ImageIcon markImg = new ImageIcon("blankmarked.png");
+
+    JFrame frame = new JFrame("Key Listener");
+    JPanel panel = (JPanel) frame.getContentPane();
+
+    Container contentPane = frame.getContentPane();
 
     public void graphics() {
-        ImageIcon crateImg = new ImageIcon("crate.png");
-        ImageIcon grassImg = new ImageIcon("blank.png");
-        ImageIcon stoneImg = new ImageIcon("wall.png");
-        ImageIcon playerImg = new ImageIcon("player.png");
-        ImageIcon cratemImg = new ImageIcon("cratemarked.png");
-        ImageIcon markImg = new ImageIcon("blankmarked.png");
+
 
         //resize all the label so it's bigger label->image->resized image-> label resized
         Image imagecrate = crateImg.getImage(); // transform it
@@ -58,14 +65,10 @@ public class View {
         Image newimgmark = imagemark.getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         markImg = new ImageIcon(newimgmark);  // transform it back
 
-        JPanel gridPanel = new JPanel(new GridLayout(Map.lvl1rows, Map.lvl1cols));
 
 
-        JFrame frame = new JFrame("Key Listener");
-        JPanel panel = (JPanel) frame.getContentPane();
         panel.setPreferredSize(new Dimension(64 * Map.lvl1rows, 64 * Map.lvl1cols));
 
-        Container contentPane = frame.getContentPane();
 
         //No need to press a key to print with this
         gridPanel.removeAll();
@@ -110,9 +113,9 @@ public class View {
             ImageIcon finalCratemImg = cratemImg;
         }
 
-        JTextField textField = new JTextField();
-        textField.addKeyListener(listener);
-        contentPane.add(textField, BorderLayout.NORTH);
+        //JTextField textField = new JTextField();
+        frame.addKeyListener(listener);
+        //contentPane.add(frame, BorderLayout.NORTH);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(gridPanel);
         frame.pack();
@@ -126,6 +129,7 @@ public class View {
                 public void keyPressed(KeyEvent event) {
                     //Maybe create new COntroller controller before
                     Controller.directionInput(event);
+                    updateMap(event);
                 }
 
                 @Override
@@ -135,9 +139,14 @@ public class View {
                 @Override
                 public void keyTyped(KeyEvent event) {
                 }
-                /*
-                private void printEventInfo(KeyEvent e) {
+
+                private void updateMap(KeyEvent e) {
+                    //Print new Map to Console
+                    System.out.println(mapV);
+
+
                     //-------Victory system
+                    /*
                     int count = 0;
                     for (Crate crate : Crates) {
                         if (crate.IsOnMark) {
@@ -187,8 +196,9 @@ public class View {
                     for (Crate crate : Crates){
                         System.out.println(crate +"On mark : " +crate.getIsOnMark());
                     }
+
+                     */
                     //-----end victory system
-                    System.out.println(mapV);
                     gridPanel.removeAll();
                     JLabel label = null;
                     //Same as before
@@ -197,20 +207,20 @@ public class View {
                             label = new JLabel();
                             //label.setText("");
                             if (mapV.getSingleElement(i, j) == Map.P) {
-                                label.setIcon(finalPlayerImg);
+                                label.setIcon(playerImg);
                             } else if (mapV.getSingleElement(i, j) == Map.G) {
-                                label.setIcon(finalGrassImg);
+                                label.setIcon(grassImg);
                             } else if (mapV.getSingleElement(i, j) == Map.S) {
-                                label.setIcon(finalStoneImg);
+                                label.setIcon(stoneImg);
                             } else if (mapV.getSingleElement(i, j) == Map.M) {
-                                label.setIcon(finalMarkImg);
+                                label.setIcon(markImg);
                             } else if (mapV.getSingleElement(i, j) == Map.C) {
-                                for (int k = 0; k < Crates.size(); k++) {
-                                    Crate element = Crates.get(k);
+                                for (int k = 0; k < (mapV.getCrates()).size(); k++) {
+                                    Crate element = (mapV.getCrates()).get(k);
                                     if (element.IsOnMark == false) {
-                                        label.setIcon(finalCrateImg);
+                                        label.setIcon(crateImg);
                                     } else if (element.IsOnMark) {
-                                        label.setIcon(finalCratemImg);
+                                        label.setIcon(cratemImg);
                                     }
                                 }
                             }
@@ -221,11 +231,7 @@ public class View {
                     }
                     frame.setVisible(true);
                 }
-
-                 */
             };
-
-
         }
 
 

@@ -1,10 +1,12 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicOptionPaneUI;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 
 public class Controller {
     private static Map mapC;
-    private View View;
+    private final View View;
     int count=0;
 
     public Controller(Map m, View v) {
@@ -23,27 +25,31 @@ public class Controller {
      public void initView() {View.graphics();}
     static int win =0;
 
-
-
     //KeyListener listener = new KeyListener() {
 
         public static void directionInput(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
+                case KeyEvent.VK_D:
                     //move right --> MAP
                     //Update Console and Graphs = View
                     mapC.MoveRight(mapC);
                     break;
                 case KeyEvent.VK_LEFT:
+                case KeyEvent.VK_A:
                     mapC.MoveLeft();
                     break;
                 case KeyEvent.VK_DOWN:
+                case KeyEvent.VK_S:
                     mapC.MoveDown(mapC);
                     break;
                 case KeyEvent.VK_UP:
+                case KeyEvent.VK_W:
                     mapC.MoveUp(mapC);
                     break;
             }
+
+
             //
 
 
@@ -105,7 +111,6 @@ public class Controller {
                         System.out.println(crate +"On mark : " +crate.getIsOnMark());
                     }*/
             //-----end victory system
-            System.out.println(mapC); //Move to View
 
         }
     }
