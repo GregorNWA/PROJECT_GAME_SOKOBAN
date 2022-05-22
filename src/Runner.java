@@ -30,12 +30,12 @@ public class Runner {
 
 
     static JLabel[] Graphicmap = new JLabel[100];
-    static int win =0;
+    static int win = 0;
 
-    public static void main(String[] args) {
+    public static <listener> void main(String[] args) {
         String[][] Level_1 = {
 
-               //0, 1, 2, 3, 4, 5, 6, 7, 8
+                //0, 1, 2, 3, 4, 5, 6, 7, 8
                 {S, S, S, S, S, S, S, S, G},//0
                 {S, G, G, S, G, G, G, S, G},//1
                 {S, G, G, G, C, G, G, S, G},//2
@@ -45,7 +45,7 @@ public class Runner {
                 {S, M, M, G, G, G, P, S, G},//6
                 {S, S, S, S, S, S, S, S, G},//7
                 {G, G, G, G, G, G, G, G, G},//8
-               //0, 1, 2, 3, 4, 5, 6, 7, 8
+                //0, 1, 2, 3, 4, 5, 6, 7, 8
         };
 
         //Map level 2
@@ -138,7 +138,7 @@ public class Runner {
 
         JFrame frame = new JFrame("Key Listener");
         JPanel panel = (JPanel) frame.getContentPane();
-        panel.setPreferredSize(new Dimension(64*lvl1rows, 64*lvl1cols));
+        panel.setPreferredSize(new Dimension(64 * lvl1rows, 64 * lvl1cols));
 
         Container contentPane = frame.getContentPane();
 
@@ -159,9 +159,9 @@ public class Runner {
                     label.setIcon(markImg);
                 } else if (MAP1.getSingleElement(i, j) == C) {
 
-                    for(int k = 0; k < Crates.size();k++){ //move through the list
+                    for (int k = 0; k < Crates.size(); k++) { //move through the list
                         Crate element = Crates.get(k); //creates a create with receive the crate actually tested
-                        if(element.getRowPos()==i && element.getColPos()==j) { // for this crate especially test IsOnMark
+                        if (element.getRowPos() == i && element.getColPos() == j) { // for this crate especially test IsOnMark
                             if (element.IsOnMark == false) {
                                 label.setIcon(crateImg);
                             } else if (element.IsOnMark) {
@@ -228,53 +228,53 @@ public class Runner {
                     }
                     //-------Victory system
                     int count = 0;
+                    for (Crate crate : Crates) {
+                        if (crate.IsOnMark) {
+                            count++;
+                        }
+                    }
+                    if ((count >= Crates.size())) {
+
+                        if ((win == 0)) {
+                            //first level
+                            System.out.println("Level 1 clear\n");
+                            //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                            MAP1.setElements(Level_2);
+
+                            for (int i = 0; i < MAP1.getRows(); i++) {
+                                for (int j = 0; j < MAP1.getColumns(); j++) {
+                                    if (MAP1.getSingleElement(i, j) == P) {
+                                        Player1[0] = new Player(i, j, false);
+                                    }
+                                }
+                            }
+
+                            Crates.clear(); //don't remember what it does, but useful
+                            //Creating new Crates depending on the "C" in the Matrix
+                            for (int i = 0; i < MAP1.getRows(); i++) {
+                                for (int j = 0; j < MAP1.getColumns(); j++) {
+                                    if (MAP1.getSingleElement(i, j) == C) {
+                                        Crates.add(new Crate(i, j, false));
+                                    }
+                                }
+                                count = 0;
+                            }
+                        }
+                        win = 1;
+                        //count=0;
                         for (Crate crate : Crates) {
                             if (crate.IsOnMark) {
                                 count++;
                             }
                         }
-                        if ((count >= Crates.size())) {
-
-                            if((win == 0)) {
-                                //first level
-                                System.out.println("Level 1 clear\n");
-                                //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                                MAP1.setElements(Level_2);
-
-                                for (int i = 0; i < MAP1.getRows(); i++) {
-                                    for (int j = 0; j < MAP1.getColumns(); j++) {
-                                        if (MAP1.getSingleElement(i, j) == P) {
-                                            Player1[0] = new Player(i, j, false);
-                                        }
-                                    }
-                                }
-
-                                Crates.clear(); //don't remember what it does, but useful
-                                //Creating new Crates depending on the "C" in the Matrix
-                                for (int i = 0; i < MAP1.getRows(); i++) {
-                                    for (int j = 0; j < MAP1.getColumns(); j++) {
-                                        if (MAP1.getSingleElement(i, j) == C) {
-                                            Crates.add(new Crate(i, j, false));
-                                        }
-                                    }
-                                    count = 0;
-                                }
-                            }
-                            win = 1;
-                            //count=0;
-                            for (Crate crate : Crates) {
-                                if (crate.IsOnMark) {
-                                    count++;
-                                }
-                            }
-                            if (count >= Crates.size()) {
-                                System.out.println("Victory!");
-                                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                        if (count >= Crates.size()) {
+                            System.out.println("Victory!");
+                            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                         }
-                            count=0;
+                        count = 0;
                     }
-                    for (Crate crate : Crates){
-                        System.out.println(crate +"On mark : " +crate.getIsOnMark());
+                    for (Crate crate : Crates) {
+                        System.out.println(crate + "On mark : " + crate.getIsOnMark());
                     }
                     //-----end victory system
                     System.out.println(MAP1);
@@ -287,17 +287,25 @@ public class Runner {
                             //label.setText("");
                             if (MAP1.getSingleElement(i, j) == P) {
                                 label.setIcon(finalPlayerImg);
-                            }
-                            else if (MAP1.getSingleElement(i, j) == G) {
+                            } else if (MAP1.getSingleElement(i, j) == G) {
                                 label.setIcon(finalGrassImg);
-                            }
-                            else if (MAP1.getSingleElement(i, j) == S) {
+                            } else if (MAP1.getSingleElement(i, j) == S) {
                                 label.setIcon(finalStoneImg);
-                            }
-                            else if (MAP1.getSingleElement(i, j) == M) {
+                            } else if (MAP1.getSingleElement(i, j) == M) {
                                 label.setIcon(finalMarkImg);
+                            } else if (MAP1.getSingleElement(i, j) == C) {
+                                for (int k = 0; k < Crates.size(); k++) {
+                                    Crate element = Crates.get(k);
+                                    if (element.getRowPos() == i && element.getColPos() == j) {
+                                        if (element.IsOnMark == false) {
+                                            label.setIcon(finalCrateImg);
+                                        } else if (element.IsOnMark) {
+                                            label.setIcon(finalCratemImg);
+                                        }
+                                    }
+                                }
                             }
-                            else if (MAP1.getSingleElement(i, j) == C) {
+                            /*else if (MAP1.getSingleElement(i, j) == C) {
                                 for(int k = 0; k < Crates.size();k++){
                                     Crate element = Crates.get(k);
                                         if (element.IsOnMark == false) {
@@ -306,24 +314,26 @@ public class Runner {
                                             label.setIcon(finalCratemImg);
                                         }
                                 }
+                            }*/
+                                label.setHorizontalAlignment(SwingConstants.CENTER);
+                                gridPanel.add(label);
                             }
-                            label.setHorizontalAlignment(SwingConstants.CENTER);
-                            gridPanel.add(label);
                         }
+                        frame.setVisible(true);
                     }
-                    frame.setVisible(true);
-                }
-            };
+                };
 
-            // Create stuff
-            JTextField textField = new JTextField();
+
+
+                // Create stuff
+                JTextField textField = new JTextField();
             textField.addKeyListener(listener);
-            contentPane.add(textField, BorderLayout.NORTH);
+            contentPane.add(textField,BorderLayout.NORTH);
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.add(gridPanel);
             frame.pack();
             frame.setVisible(true);
 
+            }
         }
-    }
 }
