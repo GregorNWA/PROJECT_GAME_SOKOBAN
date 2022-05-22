@@ -1,17 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
-
-
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-
-import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 
 
@@ -31,13 +18,10 @@ public class Runner {
         Map MAP = new Map(Map.lvl1rows,Map.lvl1cols);
         MAP.initializeMap(MAP);
         View view = new View(MAP);
-        System.out.println("Player: "+ MAP.Player);
         Controller control = new Controller(MAP,view);
-        //System.out.println(MAP);
+        System.out.println(MAP);
         //.directionInput();
         control.initMap(MAP);
-        MAP.printCrates();
-        MAP.printPlayer();
         control.initView();
 
         //System.out.println(MAP);

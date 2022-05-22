@@ -1,8 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.SortedMap;
-
 public class Map {
 
     private String[][] elements;
@@ -15,6 +12,9 @@ public class Map {
     Player Player;
     List<Crate> Crates;
 
+    int currLvl = 1;
+
+
     public Map(int new_rows, int new_columns) {
         this.elements = new String[new_rows][new_columns];
         this.rows = new_rows;
@@ -22,14 +22,45 @@ public class Map {
         //initializeMap(map);
     }
 
-    static final String S  = "  ▀▀  ";
-    static final String P  = "  P1  ";
-    static final String G  = "  --  ";
-    static final String T  = "  TT  ";
-    static final String C  = "  []  ";
-    static final String M  = "  ()  ";
+    static final String S = "  ▀▀  ";
+    static final String P = "  P1  ";
+    static final String G = "  --  ";
+    static final String T = "  TT  ";
+    static final String C = "  []  ";
+    static final String M = "  ()  ";
     static final String MC = "  [.]  ";
 
+    static String[][] Level_1 = {
+
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+            {S, S, S, S, S, S, S, S, G},//0
+            {S, G, G, S, G, G, G, S, G},//1
+            {S, G, G, G, G, G, G, S, G},//2
+            {S, G, G, G, G, C, G, S, G},//3
+            {S, S, G, G, G, G, G, S, G},//4
+            {S, M, M, G, G, S, G, S, G},//5
+            {S, M, C, G, G, G, P, S, G},//6
+            {S, S, S, S, S, S, S, S, G},//7
+            {G, G, G, G, G, G, G, G, G},//8
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+    };
+    //Map level 2
+    static String[][] Level_2 = {
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+            {S, S, S, S, S, S, S, S, S},//0
+            {S, M, M, G, G, G, M, M, S},//1
+            {S, M, M, G, C, G, M, M, S},//2
+            {S, G, G, G, G, G, G, G, S},//3
+            {S, G, G, G, S, G, G, G, S},//4
+            {S, G, C, G, G, G, G, G, S},//5
+            {S, M, M, G, G, G, M, M, S},//6
+            {S, M, M, G, G, P, M, M, S},//7
+            {S, S, S, S, S, S, S, S, S},//8
+            //0, 1, 2, 3, 4, 5, 6, 7, 8
+    };
+
+    //Norma Game
+    /*
     static String[][] Level_1 = {
 
             //0, 1, 2, 3, 4, 5, 6, 7, 8
@@ -58,6 +89,8 @@ public class Map {
             {S, S, S, S, S, S, S, S, S},//8
             //0, 1, 2, 3, 4, 5, 6, 7, 8
     };
+
+    */
     //automatic matrix size recognition
     static int lvl1rows = Level_1.length;
     static int lvl1cols = Level_1.length;
@@ -77,8 +110,7 @@ public class Map {
     //Initialize Map based on Matrix
     public void initializeMap(Map map) {
         map.setElements(Level_1);
-        mapM=map;
-        //return map;
+        mapM = map;
     }
 
     public Player initializePlayer(Map mapM) {
@@ -90,7 +122,7 @@ public class Map {
                 }
             }
         }
-        System.out.println("Player in Method: "+ Player);
+        System.out.println("Player in Method: " + Player);
         return Player;
     }
 
@@ -106,19 +138,11 @@ public class Map {
                 }
             }
         }
-        System.out.println("Crates in Method: "+ Crates);
+        System.out.println("Crates in Method: " + Crates);
         return Crates;
     }
 
-    public void printPlayer (){
-        System.out.println("Player outside: "+Player);
-    }
-
-    public void printCrates (){
-        System.out.println("Crates outside: "+Crates);
-    }
-
-    public List<Crate> getCrates(){
+    public List<Crate> getCrates() {
         return Crates;
     }
 
@@ -126,10 +150,9 @@ public class Map {
         Crates.clear();
     }
 
-    public Map getMapM(){
+    public Map getMapM() {
         return mapM;
     }
-
 
     //Getters
     public int getColumns() {
@@ -182,8 +205,45 @@ public class Map {
         return result;
     }
 
+    public int checkLevel() {
+        //-------Victory system
+        int count = 0;
+        for (Crate crate : Crates) {
+            if (crate.IsOnMark) {
+                count++;
+            }
+        }
 
+        if ((count >= Crates.size())) {
+            if (currLvl == 1) {
+                //first level
+                System.out.println("Level 1 clear\n");
 
+                //load second Map: Maybe move to Controller
+                mapM.setElements(Level_2);
+                mapM.initializePlayer(mapM);
+                Crates.clear();
+                //Creating new Crates depending on the "C" in the Matrix
+                mapM.initializeCrates(getMapM());
+                count = 0;
+                currLvl = 2;
+                System.out.println("You won Level 1! Congratulations!");
+                System.out.println("Time for Level 2!");
+                return currLvl;
+            }
+            for (Crate crate : Crates) {
+                if (crate.IsOnMark) {
+                    count++;
+                }
+            }
+            if (count >= Crates.size()&&currLvl==2) {
+                currLvl=3;
+                return currLvl;
+            }
+            count = 0;
+        }
+        return currLvl;
+    }
 
     public void MoveUp(Map Map) {
 
@@ -196,9 +256,9 @@ public class Map {
         switch (Map.getSingleElement(r - 1, c)) {
             //if next Tile is a Mark:
             case M:
-                if (Player.IsOnMark){
-                    Map.setSingleElement(r,c,M);
-                }else {
+                if (Player.IsOnMark) {
+                    Map.setSingleElement(r, c, M);
+                } else {
                     Map.setSingleElement(r, c, G);
                 }
                 Player.setRowPos(r - 1);
@@ -211,8 +271,8 @@ public class Map {
                 break;
             //If next Tile is Grass we move
             case G:
-                if(Player.IsOnMark){
-                    Map.setSingleElement(r,c,M);
+                if (Player.IsOnMark) {
+                    Map.setSingleElement(r, c, M);
                 } else {
                     Map.setSingleElement(r, c, G);
                 }
@@ -276,7 +336,6 @@ public class Map {
         }
     }
 
-
     public void MoveDown(Map Map) {
 
         int r;
@@ -288,9 +347,9 @@ public class Map {
         switch (Map.getSingleElement(r + 1, c)) {
             //if next Tile is a Mark:
             case M:
-                if (Player.IsOnMark){
-                    Map.setSingleElement(r,c,M);
-                }else {
+                if (Player.IsOnMark) {
+                    Map.setSingleElement(r, c, M);
+                } else {
                     Map.setSingleElement(r, c, G);
                 }
                 Player.setRowPos(r + 1);
@@ -303,8 +362,8 @@ public class Map {
                 break;
             //If next Tile is Grass we move
             case G:
-                if(Player.IsOnMark){
-                    Map.setSingleElement(r,c,M);
+                if (Player.IsOnMark) {
+                    Map.setSingleElement(r, c, M);
                 } else {
                     Map.setSingleElement(r, c, G);
                 }
@@ -368,7 +427,6 @@ public class Map {
         }
     }
 
-
     public void MoveRight(Map Map) {
 
         int r;
@@ -380,13 +438,13 @@ public class Map {
         switch (Map.getSingleElement(r, c + 1)) {
             //if next Tile is a Mark:
             case M:
-                if (Player.IsOnMark){
-                    Map.setSingleElement(r,c,M);
-                }else {
+                if (Player.IsOnMark) {
+                    Map.setSingleElement(r, c, M);
+                } else {
                     Map.setSingleElement(r, c, G);
                 }
                 Player.setColPos(c + 1);
-                Map.setSingleElement(r, c+1, P);
+                Map.setSingleElement(r, c + 1, P);
                 Player.setIsOnMark(true);
                 break;
             //If next Tile is Stone we don't move:
@@ -395,14 +453,14 @@ public class Map {
                 break;
             //If next Tile is Grass we move
             case G:
-                if(Player.IsOnMark){
-                    Map.setSingleElement(r,c,M);
+                if (Player.IsOnMark) {
+                    Map.setSingleElement(r, c, M);
                 } else {
                     Map.setSingleElement(r, c, G);
                 }
                 Player.setIsOnMark(false);
-                Player.setColPos(c+ 1);
-                Map.setSingleElement(r, c+1, P);
+                Player.setColPos(c + 1);
+                Map.setSingleElement(r, c + 1, P);
                 break;
             //If next tile is a Crate..it gets difficult:
             case C:
@@ -459,8 +517,6 @@ public class Map {
                 System.out.println("No Case");
         }
     }
-
-
 
 
     public void MoveLeft() {

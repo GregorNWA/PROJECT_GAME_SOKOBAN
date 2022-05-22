@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowEvent;
 import java.util.List;
 import javax.swing.*;
 
@@ -69,7 +70,6 @@ public class View {
 
         panel.setPreferredSize(new Dimension(64 * Map.lvl1rows, 64 * Map.lvl1cols));
 
-
         //No need to press a key to print with this
         gridPanel.removeAll();
         JLabel label = null;
@@ -120,9 +120,11 @@ public class View {
         frame.add(gridPanel);
         frame.pack();
         frame.setVisible(true);
-
-
     }
+        public void closeWindow(){
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+        }
+
 
             KeyListener listener = new KeyListener() {
                 @Override
@@ -145,60 +147,7 @@ public class View {
                     System.out.println(mapV);
 
 
-                    //-------Victory system
-                    /*
-                    int count = 0;
-                    for (Crate crate : Crates) {
-                        if (crate.IsOnMark) {
-                            count++;
-                        }
-                    }
-                    if ((count >= Crates.size())) {
 
-                        if ((win == 0)) {
-                            //first level
-                            System.out.println("Level 1 clear\n");
-                            //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                            mapV.setElements(Level_2);
-
-                            for (int i = 0; i < mapV.getRows(); i++) {
-                                for (int j = 0; j < mapV.getColumns(); j++) {
-                                    if (mapV.getSingleElement(i, j) == P) {
-                                        Player1[0] = new Player(i, j, false);
-                                    }
-                                }
-                            }
-
-                            Crates.clear(); //don't remember what it does, but useful
-                            //Creating new Crates depending on the "C" in the Matrix
-                            for (int i = 0; i < mapV.getRows(); i++) {
-                                for (int j = 0; j < mapV.getColumns(); j++) {
-                                    if (mapV.getSingleElement(i, j) == C) {
-                                        Crates.add(new Crate(i, j, false));
-                                    }
-                                }
-                                count = 0;
-                            }
-                        }
-                        win = 1;
-                        //count=0;
-                        for (Crate crate : Crates) {
-                            if (crate.IsOnMark) {
-                                count++;
-                            }
-                        }
-                        if (count >= Crates.size()) {
-                            System.out.println("Victory!");
-                            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                        }
-                        count = 0;
-                    }
-                    for (Crate crate : Crates){
-                        System.out.println(crate +"On mark : " +crate.getIsOnMark());
-                    }
-
-                     */
-                    //-----end victory system
                     gridPanel.removeAll();
                     JLabel label = null;
                     //Same as before
@@ -215,12 +164,15 @@ public class View {
                             } else if (mapV.getSingleElement(i, j) == Map.M) {
                                 label.setIcon(markImg);
                             } else if (mapV.getSingleElement(i, j) == Map.C) {
-                                for (int k = 0; k < (mapV.getCrates()).size(); k++) {
-                                    Crate element = (mapV.getCrates()).get(k);
-                                    if (element.IsOnMark == false) {
-                                        label.setIcon(crateImg);
-                                    } else if (element.IsOnMark) {
-                                        label.setIcon(cratemImg);
+                                for (int k = 0; k < mapV.getCrates().size(); k++) {
+                                    Crate element = mapV.getCrates().get(k);
+                                    if(element.getRowPos() == i && element.getColPos() == j) {
+                                        if (element.IsOnMark == false) {
+                                            label.setIcon(crateImg);
+
+                                        } else if (element.IsOnMark) {
+                                            label.setIcon(cratemImg);
+                                        }
                                     }
                                 }
                             }
