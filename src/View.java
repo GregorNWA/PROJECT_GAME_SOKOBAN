@@ -7,42 +7,23 @@ import java.util.List;
 import javax.swing.*;
 
 
-public class View extends Runner {
+public class View extends Runner implements KeyListener{
     // View uses Swing framework to display UI to user
+    private Map map;
+    private View view;
 
+    Controller controller =new Controller(map, view);
 
 
     static JLabel[] Graphicmap = new JLabel[1];
     static int win =0;
 
-    public void initializeMap(Map MAP1)
-    {
-        final Player[] Player1 = {null};
-        for (int i = 0; i < MAP1.getRows(); i++) {
-            for (int j = 0; j < MAP1.getColumns(); j++) {
-                if (MAP1.getSingleElement(i, j) == P) {
-                    Player1[0] = new Player(i, j, false);
-                }
-            }
-        }
-        //Same for the crates
-        List<Crate> Crates = new ArrayList<Crate>();
-        //Creating new Crates depending on the "C" in the Matrix
-        for (int i = 0; i < MAP1.getRows(); i++) {
-            for (int j = 0; j < MAP1.getColumns(); j++) {
-                if (MAP1.getSingleElement(i, j) == C) {
-                    Crates.add(new Crate(i, j, false));
-                }
-            }
-        }
-}
-
     public View (Map MAP1) {
-        int lvl1rows = Level_1.length;
-        int lvl1cols = Level_1.length;
-        int lvl2rows = Level_2.length;
-        int lvl2cols = Level_2.length;
-
+        /*int lvl1rows = Map.Level_1.length;
+        int lvl1cols = Map.Level_1.length;
+        int lvl2rows = Map.Level_2.length;
+        int lvl2cols = Map.Level_2.length;
+*/
 
         // Creation of the icon to pu ont the labels
         ImageIcon crateImg = new ImageIcon("crate.png");
@@ -78,7 +59,7 @@ public class View extends Runner {
         Image newimgmark = imagemark.getScaledInstance(64, 64, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         markImg = new ImageIcon(newimgmark);  // transform it back
 
-        JPanel gridPanel = new JPanel(new GridLayout(lvl1rows, lvl1cols));
+        JPanel gridPanel = new JPanel(new GridLayout(Map.lvl1rows, Map.lvl1cols));
 
 
 
@@ -86,30 +67,29 @@ public class View extends Runner {
 
         JFrame frame = new JFrame("Key Listener");
         JPanel panel = (JPanel) frame.getContentPane();
-        panel.setPreferredSize(new Dimension(64 * lvl1rows, 64 * lvl1cols));
+        panel.setPreferredSize(new Dimension(64 * Map.lvl1rows, 64 * Map.lvl1cols));
 
         Container contentPane = frame.getContentPane();
 
         //No need to press a key to print with this
         gridPanel.removeAll();
         JLabel label = null;
-        for (int i = 0; i < Level_1.length; i++) { // goes through
+        for (int i = 0; i < Map.Level_1.length; i++) { // goes through
             List<Crate> Crates = null;
 
 
-            for (int j = 0; j < Level_1[i].length; j++) { //the matrix
+            for (int j = 0; j < Map.Level_1[i].length; j++) { //the matrix
                 label = new JLabel();
                 //label.setText(""); //to delete the string from the matrix map (you can try without)
-                if (MAP1.getSingleElement(i, j) == P) {//check if it is a player
+                if (MAP1.getSingleElement(i, j) == Map.P) {//check if it is a player
                     label.setIcon(playerImg); //give this specific label the player picture
-                } else if (MAP1.getSingleElement(i, j) == G) { //same
+                } else if (MAP1.getSingleElement(i, j) == Map.G) { //same
                     label.setIcon(grassImg);
-                } else if (MAP1.getSingleElement(i, j) == S) {
+                } else if (MAP1.getSingleElement(i, j) == Map.S) {
                     label.setIcon(stoneImg);
-                } else if (MAP1.getSingleElement(i, j) == M) {
+                } else if (MAP1.getSingleElement(i, j) == Map.M) {
                     label.setIcon(markImg);
-                } else if (MAP1.getSingleElement(i, j) == C) {
-
+                } else if (MAP1.getSingleElement(i, j) == Map.C) {
                     for (int k = 0; k < Crates.size(); k++) { //move through the list
                         Crate element = Crates.get(k); //creates a create with receive the crate actually tested
                         if (element.getRowPos() == i && element.getColPos() == j) { // for this crate especially test IsOnMark
@@ -121,14 +101,6 @@ public class View extends Runner {
                         }
                     }
 
-                    /*for (Crate crate : Crates) { //try to go through every crates but not working
-                        if (crate.IsOnMark == false) {
-                            label.setIcon(crateImg);
-                        } else if (crate.IsOnMark) { //only once the last crate (in the list) is on a mark, then put every crates as marked crate
-                            label.setIcon(cratemImg);
-                        }
-                    }
-                }*/
                 }
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.setVerticalAlignment(SwingConstants.CENTER);
@@ -149,7 +121,8 @@ public class View extends Runner {
             KeyListener listener = new KeyListener() {
                 @Override
                 public void keyPressed(KeyEvent event) {
-                    Runner.printEventInfo(event);
+                    //Maybe create new COntroller controller before
+                    controller.directionInput(event);
                 }
 
                 @Override
@@ -161,22 +134,6 @@ public class View extends Runner {
                 }
 
                 private void printEventInfo(KeyEvent e) {
-
-                    switch (e.getKeyCode()) {
-                        case KeyEvent.VK_RIGHT:
-                            MAP1.MoveRight(Player1[0], MAP1, Crates);
-                            break;
-                        case KeyEvent.VK_LEFT:
-                            MAP1.MoveLeft(Player1[0], MAP1, Crates);
-                            break;
-                        case KeyEvent.VK_DOWN:
-                            MAP1.MoveDown(Player1[0], MAP1, Crates);
-                            break;
-                        case KeyEvent.VK_UP:
-                            MAP1.MoveUp(Player1[0], MAP1, Crates);
-                            break;
-
-                    }
                     //-------Victory system
                     int count = 0;
                     for (Crate crate : Crates) {

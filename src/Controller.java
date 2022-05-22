@@ -1,6 +1,5 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowEvent;
 
 public class Controller {
@@ -9,43 +8,37 @@ public class Controller {
     public Controller(Map MAP1, View View) {
         this.MAP1 = MAP1;
         this.View = View;
-        initView();
+        initMap();
     }
 
-    public void initView(){
-        View.initializeMap(MAP1);
+    public void initMap(){
+        MAP1.initializeMap(MAP1);
+        MAP1.initializePlayer(MAP1);
+        MAP1.initializeCrates(MAP1);
     }
+    public void initView() {View.initializeView}
+    static int win =0;
 
 
 
-    KeyListener listener = new KeyListener() {
-        @Override
-        public void keyPressed(KeyEvent event) {
-            printEventInfo(event);
-        }
+    //KeyListener listener = new KeyListener() {
 
-        @Override
-        public void keyReleased(KeyEvent event) {
-        }
-
-        @Override
-        public void keyTyped(KeyEvent event) {
-        }
-
-        public static void printEventInfo(KeyEvent e) {
+        public void directionInput(KeyEvent e) {
 
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
-                    MAP1.MoveRight(Player1[0], MAP1, Crates);
+                    //move right --> MAP
+                    //Update Console and Graphs = View
+                    MAP1.MoveRight(MAP1);
                     break;
                 case KeyEvent.VK_LEFT:
-                    MAP1.MoveLeft(Player1[0], MAP1, Crates);
+                    MAP1.MoveLeft(MAP1);
                     break;
                 case KeyEvent.VK_DOWN:
-                    MAP1.MoveDown(Player1[0], MAP1, Crates);
+                    MAP1.MoveDown(MAP1);
                     break;
                 case KeyEvent.VK_UP:
-                    MAP1.MoveUp(Player1[0], MAP1, Crates);
+                    MAP1.MoveUp(MAP1);
                     break;
             }
             //-------Victory system

@@ -9,6 +9,9 @@ public class Map {
     private int rows;
     private int columns;
 
+    Player Player;
+    List<Crate> Crates;
+
     public Map(int new_rows, int new_columns) {
         this.elements = new String[new_rows][new_columns];
         this.rows = new_rows;
@@ -51,6 +54,12 @@ public class Map {
             {S, S, S, S, S, S, S, S, S},//8
             //0, 1, 2, 3, 4, 5, 6, 7, 8
     };
+    //automatic matrix size recognition
+    static int lvl1rows = Level_1.length;
+    static int lvl1cols = Level_1.length;
+    static int lvl2rows = Level_2.length;
+    static int lvl2cols = Level_2.length;
+
 
     public static String[][] getLevel_1() {
         return Level_1;
@@ -59,6 +68,43 @@ public class Map {
     public static String[][] getLevel_2() {
         return Level_2;
     }
+
+
+    //Initialize Map based on Matrix
+    public void initializeMap(Map MAP1) {
+        MAP1 = new Map(lvl1rows, lvl1cols);
+        MAP1.setElements(Level_1);
+    }
+
+    public void initializePlayer(Map MAP1) {
+        final Player[] Player1 = {null};
+        for (int i = 0; i < MAP1.getRows(); i++) {
+            for (int j = 0; j < MAP1.getColumns(); j++) {
+                if (MAP1.getSingleElement(i, j) == P) {
+                    Player1[0] = new Player(i, j, false);
+                }
+            }
+        }
+    }
+
+    //Same for the crates
+    public void initializeCrates(Map MAP1) {
+        //Make sure to clear List for 2. Lvl
+        List<Crate> Crates = new ArrayList<Crate>();
+        //Creating new Crates depending on the "C" in the Matrix
+        for (int i = 0; i < MAP1.getRows(); i++) {
+            for (int j = 0; j < MAP1.getColumns(); j++) {
+                if (MAP1.getSingleElement(i, j) == C) {
+                    Crates.add(new Crate(i, j, false));
+                }
+            }
+        }
+    }
+
+    public void clearCRATES(List<Crate> Crates) {
+        Crates.clear();
+    }
+
 
 
     //Getters
@@ -112,7 +158,7 @@ public class Map {
         return result;
     }
 
-    public void MoveUp(Player Player, Map Map, List<Crate> Crates) {
+    public void MoveUp(Map Map) {
 
         int r;
         int c;
@@ -204,7 +250,7 @@ public class Map {
     }
 
 
-    public void MoveDown(Player Player, Map Map, List<Crate> Crates) {
+    public void MoveDown(Map Map) {
 
         int r;
         int c;
@@ -296,7 +342,7 @@ public class Map {
     }
 
 
-    public void MoveRight(Player Player, Map Map, List<Crate> Crates) {
+    public void MoveRight(Map Map) {
 
         int r;
         int c;
@@ -388,7 +434,7 @@ public class Map {
     }
 
 
-    public void MoveLeft(Player Player, Map Map, List<Crate> Crates) {
+    public void MoveLeft(Map Map) {
 
         int r;
         int c;
