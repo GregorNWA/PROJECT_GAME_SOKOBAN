@@ -4,27 +4,27 @@ import java.awt.event.KeyListener;
 import java.util.List;
 import javax.swing.*;
 
-public class View extends Runner  {
+public class View {
     // View uses Swing framework to display UI to user
     private Map mapV;
     private View view;
-
-    Controller controller = new Controller(mapV, view);
 
 
     static JLabel[] Graphicmap = new JLabel[1];
     static int win = 0;
 
-    public View(Map mapV) {
-        this.mapV = mapV;
+    public View(Map m) {
+        mapV = m;
     };
-        /*int lvl1rows = Map.Level_1.length;
-        int lvl1cols = Map.Level_1.length;
-        int lvl2rows = Map.Level_2.length;
-        int lvl2cols = Map.Level_2.length;
-*/
 
-        // Creation of the icon to pu ont the labels
+    public Map setMapV(Map mapV) {
+        mapV=mapV.getMapM();
+        return mapV;
+    }
+
+    //Controller controller = new Controller(mapV, view);
+
+
     public void graphics() {
         ImageIcon crateImg = new ImageIcon("crate.png");
         ImageIcon grassImg = new ImageIcon("blank.png");
@@ -32,7 +32,6 @@ public class View extends Runner  {
         ImageIcon playerImg = new ImageIcon("player.png");
         ImageIcon cratemImg = new ImageIcon("cratemarked.png");
         ImageIcon markImg = new ImageIcon("blankmarked.png");
-
 
         //resize all the label so it's bigger label->image->resized image-> label resized
         Image imagecrate = crateImg.getImage(); // transform it
@@ -126,7 +125,7 @@ public class View extends Runner  {
                 @Override
                 public void keyPressed(KeyEvent event) {
                     //Maybe create new COntroller controller before
-                    controller.directionInput(event);
+                    Controller.directionInput(event);
                 }
 
                 @Override

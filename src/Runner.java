@@ -20,8 +20,6 @@ public class Runner {
     private int rows;
     private int columns;
 
-
-
     static JLabel[] Graphicmap = new JLabel[100];
 
     //should move to MAP
@@ -33,19 +31,16 @@ public class Runner {
         Map MAP = new Map(Map.lvl1rows,Map.lvl1cols);
         MAP.initializeMap(MAP);
         View view = new View(MAP);
+        System.out.println("Player: "+ MAP.Player);
         Controller control = new Controller(MAP,view);
-        System.out.println(MAP);
-        //control.directionInput(new KeyEvent(e));
+        //System.out.println(MAP);
+        //.directionInput();
         control.initMap(MAP);
         MAP.printCrates();
+        MAP.printPlayer();
         control.initView();
 
         //System.out.println(MAP);
 
-
-
     }
-
-
-
 }

@@ -3,17 +3,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 public class Controller {
-    private Map mapC=null;
+    private static Map mapC;
     private View View;
-    public Controller(Map mapC, View View) {
+    int count=0;
+
+    public Controller(Map m, View v) {
         //initMap();
-        this.mapC = mapC;
-        this.View = View;
+        mapC = m;
+        View = v;
+        System.out.println("Print MapC: "+ mapC+count);
+        count++;
     }
 
     public void initMap(Map map){
         map.initializePlayer(map);
         map.initializeCrates(map);
+        mapC=map;
     }
      public void initView() {View.graphics();}
     static int win =0;
@@ -22,17 +27,15 @@ public class Controller {
 
     //KeyListener listener = new KeyListener() {
 
-        public void directionInput(KeyEvent e) {
-
+        public static void directionInput(KeyEvent e) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
                     //move right --> MAP
                     //Update Console and Graphs = View
                     mapC.MoveRight(mapC);
-
                     break;
                 case KeyEvent.VK_LEFT:
-                    mapC.MoveLeft(mapC);
+                    mapC.MoveLeft();
                     break;
                 case KeyEvent.VK_DOWN:
                     mapC.MoveDown(mapC);
