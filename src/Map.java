@@ -9,6 +9,9 @@ public class Map {
     private int rows;
     private int columns;
 
+    private Map MAP1;
+    private View View;
+
     Player Player;
     List<Crate> Crates;
 
@@ -71,9 +74,10 @@ public class Map {
 
 
     //Initialize Map based on Matrix
-    public void initializeMap(Map MAP1) {
+    public Map initializeMap() {
         MAP1 = new Map(lvl1rows, lvl1cols);
         MAP1.setElements(Level_1);
+        return MAP1;
     }
 
     public void initializePlayer(Map MAP1) {
@@ -157,6 +161,9 @@ public class Map {
         result += "\n";
         return result;
     }
+
+
+
 
     public void MoveUp(Map Map) {
 

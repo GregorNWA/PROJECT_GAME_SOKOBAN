@@ -1,24 +1,24 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
 
-public class View extends Runner implements KeyListener{
+public class View extends Runner  {
     // View uses Swing framework to display UI to user
-    private Map map;
+    private Map MAP1;
     private View view;
 
-    Controller controller =new Controller(map, view);
+    Controller controller = new Controller(MAP1, view);
 
 
     static JLabel[] Graphicmap = new JLabel[1];
-    static int win =0;
+    static int win = 0;
 
-    public View (Map MAP1) {
+    public View(Map MAP1) {
+        this.MAP1 = MAP1;
+    };
         /*int lvl1rows = Map.Level_1.length;
         int lvl1cols = Map.Level_1.length;
         int lvl2rows = Map.Level_2.length;
@@ -26,6 +26,7 @@ public class View extends Runner implements KeyListener{
 */
 
         // Creation of the icon to pu ont the labels
+    public void graphics() {
         ImageIcon crateImg = new ImageIcon("crate.png");
         ImageIcon grassImg = new ImageIcon("blank.png");
         ImageIcon stoneImg = new ImageIcon("wall.png");
@@ -60,9 +61,6 @@ public class View extends Runner implements KeyListener{
         markImg = new ImageIcon(newimgmark);  // transform it back
 
         JPanel gridPanel = new JPanel(new GridLayout(Map.lvl1rows, Map.lvl1cols));
-
-
-
 
 
         JFrame frame = new JFrame("Key Listener");
@@ -104,7 +102,6 @@ public class View extends Runner implements KeyListener{
                 }
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.setVerticalAlignment(SwingConstants.CENTER);
-
                 gridPanel.add(label);
 
             }
@@ -116,7 +113,18 @@ public class View extends Runner implements KeyListener{
             ImageIcon finalMarkImg = markImg;
             ImageIcon finalCrateImg = crateImg;
             ImageIcon finalCratemImg = cratemImg;
+        }
 
+        JTextField textField = new JTextField();
+        textField.addKeyListener(listener);
+        contentPane.add(textField, BorderLayout.NORTH);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(gridPanel);
+        frame.pack();
+        frame.setVisible(true);
+
+
+    }
 
             KeyListener listener = new KeyListener() {
                 @Override
@@ -132,7 +140,7 @@ public class View extends Runner implements KeyListener{
                 @Override
                 public void keyTyped(KeyEvent event) {
                 }
-
+                /*
                 private void printEventInfo(KeyEvent e) {
                     //-------Victory system
                     int count = 0;
@@ -181,27 +189,27 @@ public class View extends Runner implements KeyListener{
                         }
                         count = 0;
                     }
-                    /*for (Crate crate : Crates){
+                    for (Crate crate : Crates){
                         System.out.println(crate +"On mark : " +crate.getIsOnMark());
-                    }*/
+                    }
                     //-----end victory system
                     System.out.println(MAP1);
                     gridPanel.removeAll();
                     JLabel label = null;
                     //Same as before
-                    for (int i = 0; i < Level_1.length; i++) {
-                        for (int j = 0; j < Level_1[i].length; j++) {
+                    for (int i = 0; i < Map.Level_1.length; i++) {
+                        for (int j = 0; j < Map.Level_1[i].length; j++) {
                             label = new JLabel();
                             //label.setText("");
-                            if (MAP1.getSingleElement(i, j) == P) {
+                            if (MAP1.getSingleElement(i, j) == Map.P) {
                                 label.setIcon(finalPlayerImg);
-                            } else if (MAP1.getSingleElement(i, j) == G) {
+                            } else if (MAP1.getSingleElement(i, j) == Map.G) {
                                 label.setIcon(finalGrassImg);
-                            } else if (MAP1.getSingleElement(i, j) == S) {
+                            } else if (MAP1.getSingleElement(i, j) == Map.S) {
                                 label.setIcon(finalStoneImg);
-                            } else if (MAP1.getSingleElement(i, j) == M) {
+                            } else if (MAP1.getSingleElement(i, j) == Map.M) {
                                 label.setIcon(finalMarkImg);
-                            } else if (MAP1.getSingleElement(i, j) == C) {
+                            } else if (MAP1.getSingleElement(i, j) == Map.C) {
                                 for (int k = 0; k < Crates.size(); k++) {
                                     Crate element = Crates.get(k);
                                     if (element.IsOnMark == false) {
@@ -212,127 +220,18 @@ public class View extends Runner implements KeyListener{
                                 }
                             }
                             label.setHorizontalAlignment(SwingConstants.CENTER);
+                            label.setVerticalAlignment(SwingConstants.CENTER);
                             gridPanel.add(label);
                         }
                     }
                     frame.setVisible(true);
                 }
+
+                 */
             };
 
-            JTextField textField = new JTextField();
-            textField.addKeyListener(listener);
-            contentPane.add(textField, BorderLayout.NORTH);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.add(gridPanel);
-            frame.pack();
-            frame.setVisible(true);
 
-
-
-    /*
-    private JFrame frame;
-    private JLabel firstnameLabel;
-    private JLabel lastnameLabel;
-    private JTextField firstnameTextfield;
-    private JTextField lastnameTextfield;
-    private JButton firstnameSaveButton;
-    private JButton lastnameSaveButton;
-    private JButton hello;
-    private JButton bye;
-    public View(String title) {
-        frame = new JFrame(title);
-        frame.getContentPane().setLayout(new BorderLayout());
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 120);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        // Create UI elements
-        firstnameLabel = new JLabel("Firstname :");
-        lastnameLabel = new JLabel("Lastname :");
-        firstnameTextfield = new JTextField();
-        lastnameTextfield = new JTextField();
-        firstnameSaveButton = new JButton("Save firstname");
-        lastnameSaveButton = new JButton("Save lastname");
-        hello = new JButton("Hello!");
-        bye = new JButton("Bye!");
-        // Add UI element to frame
-        GroupLayout layout = new GroupLayout(frame.getContentPane());
-        layout.setAutoCreateGaps(true);
-        layout.setAutoCreateContainerGaps(true);
-layout.setHorizontalGroup(layout.createSequentialGroup()
-.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(firstnameLabel)
-        .addComponent(lastnameLabel))
-.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(firstnameTextfield)
-        .addComponent(lastnameTextfield))
-.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(firstnameSaveButton)
-        .addComponent(lastnameSaveButton))
-.addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(hello)
-        .addComponent(bye)));
-layout.setVerticalGroup(layout.createSequentialGroup()
-.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(firstnameLabel)
-        .addComponent(firstnameTextfield).addComponent(firstnameSaveButton).addComponent(hello))
-.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE).addComponent(lastnameLabel)
-        .addComponent(lastnameTextfield).addComponent(lastnameSaveButton).addComponent(bye)));
-layout.linkSize(SwingConstants.HORIZONTAL, firstnameSaveButton, lastnameSaveButton);
-layout.linkSize(SwingConstants.HORIZONTAL, hello, bye);
-frame.getContentPane().setLayout(layout);
-    }
-    public JFrame getFrame() {
-        return frame;
-    }
-    public void setFrame(JFrame frame) {
-        this.frame = frame;
-    }
-    public JLabel getFirstnameLabel() {
-        return firstnameLabel;
-    }
-    public void setFirstnameLabel(JLabel firstnameLabel) {
-        this.firstnameLabel = firstnameLabel;
-    }
-    public JLabel getLastnameLabel() {
-        return lastnameLabel;
-    }
-    public void setLastnameLabel(JLabel lastnameLabel) {
-        this.lastnameLabel = lastnameLabel;
-    }
-    public JTextField getFirstnameTextfield() {
-        return firstnameTextfield;
-    }
-    public void setFirstnameTextfield(JTextField firstnameTextfield) {
-        this.firstnameTextfield = firstnameTextfield;
-    }
-    public JTextField getLastnameTextfield() {
-        return lastnameTextfield;
-    }
-    public void setLastnameTextfield(JTextField lastnameTextfield) {
-        this.lastnameTextfield = lastnameTextfield;
-    }
-    public JButton getFirstnameSaveButton() {
-        return firstnameSaveButton;
-    }
-    public void setFirstnameSaveButton(JButton firstnameSaveButton) {
-        this.firstnameSaveButton = firstnameSaveButton;
-    }
-    public JButton getLastnameSaveButton() {
-        return lastnameSaveButton;
-    }
-    public void setLastnameSaveButton(JButton lastnameSaveButton) {
-        this.lastnameSaveButton = lastnameSaveButton;
-    }
-    public JButton getHello() {
-        return hello;
-    }
-    public void setHello(JButton hello) {
-        this.hello = hello;
-    }
-    public JButton getBye() {
-        return bye;
-    }
-    public void setBye(JButton bye) {
-        this.bye = bye;
-    }
-
-
-     */
         }
-    }
+
+
+
