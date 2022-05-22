@@ -31,14 +31,21 @@ public class Runner {
 
         //automatic matrix size recognition
         Map MAP = new Map(Map.lvl1rows,Map.lvl1cols);
+        MAP.initializeMap(MAP);
         View view = new View(MAP);
         Controller control = new Controller(MAP,view);
-        //control.directionInput(new KeyEvent(e));
-        control.initView();
         System.out.println(MAP);
+        //control.directionInput(new KeyEvent(e));
+        control.initMap(MAP);
+        MAP.printCrates();
+        control.initView();
+
+        //System.out.println(MAP);
 
 
 
     }
+
+
 
 }

@@ -6,15 +6,14 @@ public class Controller {
     private Map mapC=null;
     private View View;
     public Controller(Map mapC, View View) {
-        initMap();
+        //initMap();
         this.mapC = mapC;
         this.View = View;
     }
 
-    public void initMap(){
-        mapC.initializePlayer(mapC);
-        mapC.initializeCrates(mapC);
-
+    public void initMap(Map map){
+        map.initializePlayer(map);
+        map.initializeCrates(map);
     }
      public void initView() {View.graphics();}
     static int win =0;

@@ -9,7 +9,6 @@ public class Map {
     private int rows;
     private int columns;
 
-    private Map map;
     private Map mapM;
     private View View;
 
@@ -20,7 +19,7 @@ public class Map {
         this.elements = new String[new_rows][new_columns];
         this.rows = new_rows;
         this.columns = new_columns;
-        initializeMap(map);
+        //initializeMap(map);
     }
 
     static final String S  = "  ▀▀  ";
@@ -77,7 +76,6 @@ public class Map {
 
     //Initialize Map based on Matrix
     public void initializeMap(Map map) {
-        map = new Map(lvl1rows,lvl1cols);
         map.setElements(Level_1);
         //return map;
     }
@@ -94,9 +92,9 @@ public class Map {
     }
 
     //Same for the crates
-    public void initializeCrates(Map mapM) {
+    public List<Crate> initializeCrates(Map mapM) {
         //Make sure to clear List for 2. Lvl
-        List<Crate> Crates = new ArrayList<Crate>();
+        Crates = new ArrayList<Crate>();
         //Creating new Crates depending on the "C" in the Matrix
         for (int i = 0; i < mapM.getRows(); i++) {
             for (int j = 0; j < mapM.getColumns(); j++) {
@@ -105,6 +103,16 @@ public class Map {
                 }
             }
         }
+        System.out.println("Crates in Method: "+ Crates);
+        return Crates;
+    }
+
+    public void printCrates (){
+        System.out.println("Crates outside: "+Crates);
+    }
+
+    public List<Crate> getCrates(){
+        return Crates;
     }
 
     public void clearCRATES(List<Crate> Crates) {

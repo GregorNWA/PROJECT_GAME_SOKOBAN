@@ -4,7 +4,6 @@ import java.awt.event.KeyListener;
 import java.util.List;
 import javax.swing.*;
 
-
 public class View extends Runner  {
     // View uses Swing framework to display UI to user
     private Map mapV;
@@ -73,9 +72,6 @@ public class View extends Runner  {
         gridPanel.removeAll();
         JLabel label = null;
         for (int i = 0; i < Map.Level_1.length; i++) { // goes through
-            List<Crate> Crates = null;
-
-
             for (int j = 0; j < Map.Level_1[i].length; j++) { //the matrix
                 label = new JLabel();
                 //label.setText(""); //to delete the string from the matrix map (you can try without)
@@ -88,8 +84,8 @@ public class View extends Runner  {
                 } else if (mapV.getSingleElement(i, j) == Map.M) {
                     label.setIcon(markImg);
                 } else if (mapV.getSingleElement(i, j) == Map.C) {
-                    for (int k = 0; k < Crates.size(); k++) { //move through the list
-                        Crate element = Crates.get(k); //creates a create with receive the crate actually tested
+                    for (int k = 0; k < mapV.getCrates().size(); k++) { //move through the list
+                        Crate element = mapV.getCrates().get(k); //creates a create with receive the crate actually tested
                         if (element.getRowPos() == i && element.getColPos() == j) { // for this crate especially test IsOnMark
                             if (element.IsOnMark == false) {
                                 label.setIcon(crateImg);
