@@ -3,19 +3,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowEvent;
 
 public class Controller {
-    private Map MAP1;
+    private Map mapC=null;
     private View View;
-    public Controller(Map MAP1, View View) {
+    public Controller(Map mapC, View View) {
         initMap();
-        this.MAP1 = MAP1;
+        this.mapC = mapC;
         this.View = View;
-
     }
 
     public void initMap(){
-        MAP1.initializeMap();
-        MAP1.initializePlayer(MAP1);
-        MAP1.initializeCrates(MAP1);
+        mapC.initializePlayer(mapC);
+        mapC.initializeCrates(mapC);
+
     }
      public void initView() {View.graphics();}
     static int win =0;
@@ -30,17 +29,17 @@ public class Controller {
                 case KeyEvent.VK_RIGHT:
                     //move right --> MAP
                     //Update Console and Graphs = View
-                    MAP1.MoveRight(MAP1);
+                    mapC.MoveRight(mapC);
 
                     break;
                 case KeyEvent.VK_LEFT:
-                    MAP1.MoveLeft(MAP1);
+                    mapC.MoveLeft(mapC);
                     break;
                 case KeyEvent.VK_DOWN:
-                    MAP1.MoveDown(MAP1);
+                    mapC.MoveDown(mapC);
                     break;
                 case KeyEvent.VK_UP:
-                    MAP1.MoveUp(MAP1);
+                    mapC.MoveUp(mapC);
                     break;
             }
             //
@@ -48,7 +47,7 @@ public class Controller {
 
             //-------Victory
 
-            /*if(MAP1.checkForVictory()) {
+            /*if(mapC.checkForVictory()) {
 
             }
 
@@ -65,20 +64,20 @@ public class Controller {
                     //first level
                     System.out.println("Level 1 clear\n");
                     //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                    /*MAP1.setElements(Level_2);
+                    /*mapC.setElements(Level_2);
 
-                    for (int i = 0; i < MAP1.getRows(); i++) {
-                        for (int j = 0; j < MAP1.getColumns(); j++) {
-                            if (MAP1.getSingleElement(i, j) == P) {
+                    for (int i = 0; i < mapC.getRows(); i++) {
+                        for (int j = 0; j < mapC.getColumns(); j++) {
+                            if (mapC.getSingleElement(i, j) == P) {
                                 Player1[0] = new Player(i, j, false);
                             }
                         }
                     }
                     Crates.clear(); //don't remember what it does, but useful
                     //Creating new Crates depending on the "C" in the Matrix
-                    for (int i = 0; i < MAP1.getRows(); i++) {
-                        for (int j = 0; j < MAP1.getColumns(); j++) {
-                            if (MAP1.getSingleElement(i, j) == C) {
+                    for (int i = 0; i < mapC.getRows(); i++) {
+                        for (int j = 0; j < mapC.getColumns(); j++) {
+                            if (mapC.getSingleElement(i, j) == C) {
                                 Crates.add(new Crate(i, j, false));
                             }
                         }
@@ -104,7 +103,7 @@ public class Controller {
                         System.out.println(crate +"On mark : " +crate.getIsOnMark());
                     }*/
             //-----end victory system
-            System.out.println(MAP1); //Move to View
+            System.out.println(mapC); //Move to View
 
         }
     }

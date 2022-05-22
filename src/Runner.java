@@ -30,12 +30,12 @@ public class Runner {
     public static void main(String[] args) {
 
         //automatic matrix size recognition
-        Map MAP1 = new Map(Map.lvl1rows,Map.lvl1cols);
-        View view = new View(MAP1);
-        Controller control = new Controller(MAP1,view);
+        Map MAP = new Map(Map.lvl1rows,Map.lvl1cols);
+        View view = new View(MAP);
+        Controller control = new Controller(MAP,view);
         //control.directionInput(new KeyEvent(e));
         control.initView();
-        System.out.println(MAP1);
+        System.out.println(MAP);
 
 
 

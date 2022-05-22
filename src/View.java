@@ -7,17 +7,17 @@ import javax.swing.*;
 
 public class View extends Runner  {
     // View uses Swing framework to display UI to user
-    private Map MAP1;
+    private Map mapV;
     private View view;
 
-    Controller controller = new Controller(MAP1, view);
+    Controller controller = new Controller(mapV, view);
 
 
     static JLabel[] Graphicmap = new JLabel[1];
     static int win = 0;
 
-    public View(Map MAP1) {
-        this.MAP1 = MAP1;
+    public View(Map mapV) {
+        this.mapV = mapV;
     };
         /*int lvl1rows = Map.Level_1.length;
         int lvl1cols = Map.Level_1.length;
@@ -79,15 +79,15 @@ public class View extends Runner  {
             for (int j = 0; j < Map.Level_1[i].length; j++) { //the matrix
                 label = new JLabel();
                 //label.setText(""); //to delete the string from the matrix map (you can try without)
-                if (MAP1.getSingleElement(i, j) == Map.P) {//check if it is a player
+                if (mapV.getSingleElement(i, j) == Map.P) {//check if it is a player
                     label.setIcon(playerImg); //give this specific label the player picture
-                } else if (MAP1.getSingleElement(i, j) == Map.G) { //same
+                } else if (mapV.getSingleElement(i, j) == Map.G) { //same
                     label.setIcon(grassImg);
-                } else if (MAP1.getSingleElement(i, j) == Map.S) {
+                } else if (mapV.getSingleElement(i, j) == Map.S) {
                     label.setIcon(stoneImg);
-                } else if (MAP1.getSingleElement(i, j) == Map.M) {
+                } else if (mapV.getSingleElement(i, j) == Map.M) {
                     label.setIcon(markImg);
-                } else if (MAP1.getSingleElement(i, j) == Map.C) {
+                } else if (mapV.getSingleElement(i, j) == Map.C) {
                     for (int k = 0; k < Crates.size(); k++) { //move through the list
                         Crate element = Crates.get(k); //creates a create with receive the crate actually tested
                         if (element.getRowPos() == i && element.getColPos() == j) { // for this crate especially test IsOnMark
@@ -155,11 +155,11 @@ public class View extends Runner  {
                             //first level
                             System.out.println("Level 1 clear\n");
                             //frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                            MAP1.setElements(Level_2);
+                            mapV.setElements(Level_2);
 
-                            for (int i = 0; i < MAP1.getRows(); i++) {
-                                for (int j = 0; j < MAP1.getColumns(); j++) {
-                                    if (MAP1.getSingleElement(i, j) == P) {
+                            for (int i = 0; i < mapV.getRows(); i++) {
+                                for (int j = 0; j < mapV.getColumns(); j++) {
+                                    if (mapV.getSingleElement(i, j) == P) {
                                         Player1[0] = new Player(i, j, false);
                                     }
                                 }
@@ -167,9 +167,9 @@ public class View extends Runner  {
 
                             Crates.clear(); //don't remember what it does, but useful
                             //Creating new Crates depending on the "C" in the Matrix
-                            for (int i = 0; i < MAP1.getRows(); i++) {
-                                for (int j = 0; j < MAP1.getColumns(); j++) {
-                                    if (MAP1.getSingleElement(i, j) == C) {
+                            for (int i = 0; i < mapV.getRows(); i++) {
+                                for (int j = 0; j < mapV.getColumns(); j++) {
+                                    if (mapV.getSingleElement(i, j) == C) {
                                         Crates.add(new Crate(i, j, false));
                                     }
                                 }
@@ -193,7 +193,7 @@ public class View extends Runner  {
                         System.out.println(crate +"On mark : " +crate.getIsOnMark());
                     }
                     //-----end victory system
-                    System.out.println(MAP1);
+                    System.out.println(mapV);
                     gridPanel.removeAll();
                     JLabel label = null;
                     //Same as before
@@ -201,15 +201,15 @@ public class View extends Runner  {
                         for (int j = 0; j < Map.Level_1[i].length; j++) {
                             label = new JLabel();
                             //label.setText("");
-                            if (MAP1.getSingleElement(i, j) == Map.P) {
+                            if (mapV.getSingleElement(i, j) == Map.P) {
                                 label.setIcon(finalPlayerImg);
-                            } else if (MAP1.getSingleElement(i, j) == Map.G) {
+                            } else if (mapV.getSingleElement(i, j) == Map.G) {
                                 label.setIcon(finalGrassImg);
-                            } else if (MAP1.getSingleElement(i, j) == Map.S) {
+                            } else if (mapV.getSingleElement(i, j) == Map.S) {
                                 label.setIcon(finalStoneImg);
-                            } else if (MAP1.getSingleElement(i, j) == Map.M) {
+                            } else if (mapV.getSingleElement(i, j) == Map.M) {
                                 label.setIcon(finalMarkImg);
-                            } else if (MAP1.getSingleElement(i, j) == Map.C) {
+                            } else if (mapV.getSingleElement(i, j) == Map.C) {
                                 for (int k = 0; k < Crates.size(); k++) {
                                     Crate element = Crates.get(k);
                                     if (element.IsOnMark == false) {

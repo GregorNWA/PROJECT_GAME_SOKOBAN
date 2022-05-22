@@ -9,7 +9,8 @@ public class Map {
     private int rows;
     private int columns;
 
-    private Map MAP1;
+    private Map map;
+    private Map mapM;
     private View View;
 
     Player Player;
@@ -19,6 +20,7 @@ public class Map {
         this.elements = new String[new_rows][new_columns];
         this.rows = new_rows;
         this.columns = new_columns;
+        initializeMap(map);
     }
 
     static final String S  = "  ▀▀  ";
@@ -74,17 +76,17 @@ public class Map {
 
 
     //Initialize Map based on Matrix
-    public Map initializeMap() {
-        MAP1 = new Map(lvl1rows, lvl1cols);
-        MAP1.setElements(Level_1);
-        return MAP1;
+    public void initializeMap(Map map) {
+        map = new Map(lvl1rows,lvl1cols);
+        map.setElements(Level_1);
+        //return map;
     }
 
-    public void initializePlayer(Map MAP1) {
+    public void initializePlayer(Map mapM) {
         final Player[] Player1 = {null};
-        for (int i = 0; i < MAP1.getRows(); i++) {
-            for (int j = 0; j < MAP1.getColumns(); j++) {
-                if (MAP1.getSingleElement(i, j) == P) {
+        for (int i = 0; i < mapM.getRows(); i++) {
+            for (int j = 0; j < mapM.getColumns(); j++) {
+                if (mapM.getSingleElement(i, j) == P) {
                     Player1[0] = new Player(i, j, false);
                 }
             }
@@ -92,13 +94,13 @@ public class Map {
     }
 
     //Same for the crates
-    public void initializeCrates(Map MAP1) {
+    public void initializeCrates(Map mapM) {
         //Make sure to clear List for 2. Lvl
         List<Crate> Crates = new ArrayList<Crate>();
         //Creating new Crates depending on the "C" in the Matrix
-        for (int i = 0; i < MAP1.getRows(); i++) {
-            for (int j = 0; j < MAP1.getColumns(); j++) {
-                if (MAP1.getSingleElement(i, j) == C) {
+        for (int i = 0; i < mapM.getRows(); i++) {
+            for (int j = 0; j < mapM.getColumns(); j++) {
+                if (mapM.getSingleElement(i, j) == C) {
                     Crates.add(new Crate(i, j, false));
                 }
             }
