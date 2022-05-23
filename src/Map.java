@@ -6,10 +6,8 @@ public class Map {
     static final String S = "  ▀▀  ";
     static final String P = "  P1  ";
     static final String G = "  --  ";
-    static final String T = "  TT  ";
     static final String C = "  []  ";
     static final String M = "  ()  ";
-    static final String MC = "  [.]  ";
     //Norma Game
     static String[][] Level_1 = {
 
@@ -82,18 +80,15 @@ public class Map {
     private int rows;
     private int columns;
     private Map mapM;
-    private View View;
     public Map(int new_rows, int new_columns) {
         this.elements = new String[new_rows][new_columns];
         this.rows = new_rows;
         this.columns = new_columns;
-        //initializeMap(map);
     }
-
+    //for later use
     public static String[][] getLevel_1() {
         return Level_1;
     }
-
     public static String[][] getLevel_2() {
         return Level_2;
     }
@@ -272,7 +267,7 @@ public class Map {
                 break;
             //If next tile is a Crate..it gets difficult:
             case C:
-                //If the tile after the Crate is a Stone we don't move. Also our Player cannot move a Crate behind a Crate
+                //If the tile after the Crate is a Stone we don't move. Also, our Player cannot move a Crate behind a Crate
                 if (mapM.getSingleElement(r - 2, c) == S || mapM.getSingleElement(r - 2, c) == C) {
                     System.out.println("Stone behind Crate!");
                     //If not we move
@@ -282,10 +277,10 @@ public class Map {
                         if (crate.getRowPos() == (r - 1) && crate.getColPos() == c) {
                             boolean In2TilesMark = mapM.getSingleElement(r - 2, c) == M;
                             //transferring information about marks on the ground
-                            if (crate.IsOnMark == true) {
+                            if (crate.IsOnMark) {
                                 mapM.setSingleElement((r - 2), c, C); //Push Crate 1 TIle in Matrix
                                 crate.setRowPos(r - 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -299,7 +294,7 @@ public class Map {
                             } else {
                                 mapM.setSingleElement((r - 2), c, C); //Push Crate 1 TIle in Matrix
                                 crate.setRowPos(r - 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -311,7 +306,7 @@ public class Map {
                                 mapM.setSingleElement((r - 2), c, C);
                                 Player.setIsOnMark(false); //If Crate was on Mark, Player will be NOT On Mark
                             }
-                            if (In2TilesMark == true) {
+                            if (In2TilesMark) {
                                 crate.setIsOnMark(true);
                             }
                         }
@@ -370,10 +365,10 @@ public class Map {
                         if (crate.getRowPos() == (r + 1) && crate.getColPos() == c) {
                             boolean In2TilesMark = mapM.getSingleElement(r + 2, c) == M;
                             //transferring information about marks on the ground
-                            if (crate.IsOnMark == true) {
+                            if (crate.IsOnMark) {
                                 mapM.setSingleElement((r + 2), c, C); //Push Crate 1 TIle in Matrix
                                 crate.setRowPos(r + 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -387,7 +382,7 @@ public class Map {
                             } else {
                                 mapM.setSingleElement((r + 2), c, C); //Push Crate 1 TIle in Matrix
                                 crate.setRowPos(r + 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -399,7 +394,7 @@ public class Map {
                                 mapM.setSingleElement((r + 2), c, C);
                                 Player.setIsOnMark(false); //If Crate was on Mark, Player will be NOT On Mark
                             }
-                            if (In2TilesMark == true) {
+                            if (In2TilesMark) {
                                 crate.setIsOnMark(true);
                             }
                         }
@@ -458,10 +453,10 @@ public class Map {
                         if (crate.getColPos() == (c + 1) && crate.getRowPos() == r) {
                             boolean In2TilesMark = mapM.getSingleElement(r, c + 2) == M;
                             //transferring information about marks on the ground
-                            if (crate.IsOnMark == true) {
+                            if (crate.IsOnMark) {
                                 mapM.setSingleElement(r, c + 2, C); //Push Crate 1 TIle in Matrix
                                 crate.setColPos(c + 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -475,7 +470,7 @@ public class Map {
                             } else {
                                 mapM.setSingleElement(r, c + 2, C); //Push Crate 1 TIle in Matrix
                                 crate.setColPos(c + 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -487,7 +482,7 @@ public class Map {
                                 mapM.setSingleElement(r, c + 2, C);
                                 Player.setIsOnMark(false); //If Crate was on Mark, Player will be NOT On Mark
                             }
-                            if (In2TilesMark == true) {
+                            if (In2TilesMark) {
                                 crate.setIsOnMark(true);
                             }
                         }
@@ -546,10 +541,10 @@ public class Map {
                         if (crate.getColPos() == (c - 1) && crate.getRowPos() == r) {
                             boolean In2TilesMark = mapM.getSingleElement(r, c - 2) == M;
                             //transferring information about marks on the ground
-                            if (crate.IsOnMark == true) {
+                            if (crate.IsOnMark) {
                                 mapM.setSingleElement(r, c - 2, C); //Push Crate 1 TIle in Matrix
                                 crate.setColPos(c - 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -563,7 +558,7 @@ public class Map {
                             } else {
                                 mapM.setSingleElement(r, c - 2, C); //Push Crate 1 TIle in Matrix
                                 crate.setColPos(c - 2);     //Update Position of the Crate Object
-                                if (Player.getIsOnMark() == true) {
+                                if (Player.getIsOnMark()) {
                                     mapM.setSingleElement(r, c, M);
                                 } else {
                                     mapM.setSingleElement(r, c, G);
@@ -575,7 +570,7 @@ public class Map {
                                 mapM.setSingleElement(r, c - 2, C);
                                 Player.setIsOnMark(false); //If Crate was on Mark, Player will be NOT On Mark
                             }
-                            if (In2TilesMark == true) {
+                            if (In2TilesMark) {
                                 crate.setIsOnMark(true);
                             }
                         }
