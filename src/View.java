@@ -24,7 +24,13 @@ public class View implements ViewObserver {
         @Override
         public void keyPressed(KeyEvent event) {
             //Maybe create new COntroller controller before
-            Controller.directionInput(event);
+            //Controller.directionInput(event);
+            switch (event.getKeyCode()) {
+                case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> Controller.directionInput("RIGHT");
+                case KeyEvent.VK_LEFT, KeyEvent.VK_A -> Controller.directionInput("LEFT");
+                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> Controller.directionInput("DOWN");
+                case KeyEvent.VK_UP, KeyEvent.VK_W -> Controller.directionInput("UP");
+            }
 
         }
         @Override
@@ -89,23 +95,19 @@ public class View implements ViewObserver {
     public void addButtons() {
         LeftButton.addActionListener
                 (event -> {
-                    Controller.ButtonInput("LEFT");
-                    updateMap();
+                    Controller.directionInput("LEFT");
                 });
         RightButton.addActionListener
                 (event -> {
-                    Controller.ButtonInput("RIGHT");
-                    updateMap();
+                    Controller.directionInput("RIGHT");
                 });
         DownButton.addActionListener
                 (event -> {
-                    Controller.ButtonInput("DOWN");
-                    updateMap();
+                    Controller.directionInput("DOWN");
                 });
         UpButton.addActionListener
                 (event -> {
-                    Controller.ButtonInput("UP");
-                    updateMap();
+                    Controller.directionInput("UP");
                 });
 
         ButtonPanel.setPreferredSize(new Dimension(150, 100));

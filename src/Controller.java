@@ -22,17 +22,7 @@ public class Controller {
 
     }
 
-    public static void directionInput(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> mapC.MoveRight();
-            case KeyEvent.VK_LEFT, KeyEvent.VK_A -> mapC.MoveLeft();
-            case KeyEvent.VK_DOWN, KeyEvent.VK_S -> mapC.MoveDown();
-            case KeyEvent.VK_UP, KeyEvent.VK_W -> mapC.MoveUp();
-        }
-        checker();
-        updateObservers();
-    }
-    public static void ButtonInput(String direction) {
+    public static void directionInput(String direction) {
         switch (direction) {
             case "LEFT" -> {
                 mapC.MoveLeft();
@@ -45,6 +35,24 @@ public class Controller {
         updateObservers();
     }
 
+
+
+    public static void updateObservers(){
+        for(ViewObserver v: observers){
+            v.updateMap();
+        }
+    }
+
+    public void initMap(Map map) {
+        map.initializePlayer(map);
+        map.initializeCrates(map);
+        mapC = map;
+    }
+
+    public void initView() {
+        View.graphics();
+        View.addButtons();
+    }
     public static void checker() {
         switch (mapC.checkLevel()) {
             //Sout could be handeled my View
@@ -64,22 +72,5 @@ public class Controller {
                 }
             }
         }
-    }
-
-    public static void updateObservers(){
-        for(ViewObserver v: observers){
-            v.updateMap();
-        }
-    }
-
-    public void initMap(Map map) {
-        map.initializePlayer(map);
-        map.initializeCrates(map);
-        mapC = map;
-    }
-
-    public void initView() {
-        View.graphics();
-        View.addButtons();
     }
 }
