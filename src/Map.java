@@ -66,17 +66,17 @@ public class Map {
     };
     //Map level 2
     static String[][] Level_2 = {
-            //0, 1, 2, 3, 4, 5, 6, 7, 8
-            {S, S, S, S, S, S, S, S, S},//0
-            {S, M, M, G, G, G, M, M, S},//1
-            {S, M, M, G, C, G, M, M, S},//2
-            {S, G, G, G, G, G, G, G, S},//3
-            {S, G, G, G, S, G, G, G, S},//4
-            {S, G, C, G, G, G, G, G, S},//5
-            {S, M, M, G, G, G, M, M, S},//6
-            {S, M, M, G, G, P, M, M, S},//7
-            {S, S, S, S, S, S, S, S, S},//8
-            //0, 1, 2, 3, 4, 5, 6, 7, 8
+        //0, 1, 2, 3, 4, 5, 6, 7, 8
+        {S, S, S, S, S, S, S, S, S},//0
+        {S, M, M, G, G, G, M, M, S},//1
+        {S, M, M, G, C, G, M, M, S},//2
+        {S, G, G, G, G, G, G, G, S},//3
+        {S, G, G, G, S, G, G, G, S},//4
+        {S, G, C, G, G, G, G, G, S},//5
+        {S, M, M, G, G, G, M, M, S},//6
+        {S, M, M, G, G, P, M, M, S},//7
+        {S, S, S, S, S, S, S, S, S},//8
+        //0, 1, 2, 3, 4, 5, 6, 7, 8
     };    */
     private String[][] elements;
     private int rows;

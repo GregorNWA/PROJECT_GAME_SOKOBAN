@@ -16,8 +16,6 @@ public class Controller {
         mapC=map;
     }
      public void initView() {View.graphics();}
-    static int win =0;
-
 
         public static void directionInput(KeyEvent e) {
             switch (e.getKeyCode()) {
