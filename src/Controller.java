@@ -3,12 +3,11 @@ import java.awt.event.KeyEvent;
 public class Controller {
     private static Map mapC;
     private static View View;
-    static int count=0;
+    static int count=1;
 
     public Controller(Map m, View v) {
         mapC = m;
         View = v;
-        count++;
     }
 
     public void initMap(Map map){
@@ -24,7 +23,7 @@ public class Controller {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_RIGHT:
                 case KeyEvent.VK_D:
-                    mapC.MoveRight(mapC);
+                    mapC.MoveRight();
                     break;
                 case KeyEvent.VK_LEFT:
                 case KeyEvent.VK_A:
@@ -32,11 +31,11 @@ public class Controller {
                     break;
                 case KeyEvent.VK_DOWN:
                 case KeyEvent.VK_S:
-                    mapC.MoveDown(mapC);
+                    mapC.MoveDown();
                     break;
                 case KeyEvent.VK_UP:
                 case KeyEvent.VK_W:
-                    mapC.MoveUp(mapC);
+                    mapC.MoveUp();
                     break;
             }
 

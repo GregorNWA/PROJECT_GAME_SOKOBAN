@@ -1,17 +1,4 @@
-import javax.swing.*;
-
-
-
 public class Runner {
-    private String[][] elements;
-    private int rows;
-    private int columns;
-
-    static JLabel[] Graphicmap = new JLabel[100];
-
-    //should move to MAP
-
-
     public static void main(String[] args) {
 
         //automatic matrix size recognition
@@ -23,8 +10,6 @@ public class Runner {
         //.directionInput();
         control.initMap(MAP);
         control.initView();
-
         //System.out.println(MAP);
-
     }
 }
