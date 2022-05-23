@@ -1,10 +1,9 @@
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import javax.swing.*;
 
-public class View {
+
+public class View implements ViewObserver {
     JPanel gridPanel = new JPanel(new GridLayout(Map.lvl1rows, Map.lvl1cols));
     ImageIcon crateImg = new ImageIcon("crate.png");
     ImageIcon grassImg = new ImageIcon("blank.png");
@@ -18,15 +17,16 @@ public class View {
     JPanel panel = (JPanel) frame.getContentPane();
     // View uses Swing framework to display UI to user
     private final Map mapV;
+    int sqsize = 80;//length of the square
+
 
     KeyListener listener = new KeyListener() {
         @Override
         public void keyPressed(KeyEvent event) {
             //Maybe create new COntroller controller before
             Controller.directionInput(event);
-            updateMap(event);
-        }
 
+        }
         @Override
         public void keyReleased(KeyEvent event) {
         }
@@ -34,55 +34,101 @@ public class View {
         @Override
         public void keyTyped(KeyEvent event) {
         }
+    };
 
-        private void updateMap(KeyEvent e) {
-            //Print new Map to Console
-            System.out.println(mapV);
+    @Override
+    public void updateMap() {
+        //Print new Map to Console
+        gridPanel.removeAll();
+        JLabel label = null;
+        //Same as before
+        for (int i = 0; i < Map.Level_1.length; i++) {
+            for (int j = 0; j < Map.Level_1[i].length; j++) {
+                label = new JLabel();
+                if (mapV.getSingleElement(i, j) == Map.P) {
+                    label.setIcon(playerImg);
+                } else if (mapV.getSingleElement(i, j) == Map.G) {
+                    label.setIcon(grassImg);
+                } else if (mapV.getSingleElement(i, j) == Map.S) {
+                    label.setIcon(stoneImg);
+                } else if (mapV.getSingleElement(i, j) == Map.M) {
+                    label.setIcon(markImg);
+                } else if (mapV.getSingleElement(i, j) == Map.C) {
+                    for (int k = 0; k < mapV.getCrates().size(); k++) {
+                        Crate element = mapV.getCrates().get(k);
+                        if (element.getRowPos() == i && element.getColPos() == j) {
+                            if (element.IsOnMark == false) {
+                                label.setIcon(crateImg);
 
-            gridPanel.removeAll();
-            JLabel label = null;
-            //Same as before
-            for (int i = 0; i < Map.Level_1.length; i++) {
-                for (int j = 0; j < Map.Level_1[i].length; j++) {
-                    label = new JLabel();
-                    if (mapV.getSingleElement(i, j) == Map.P) {
-                        label.setIcon(playerImg);
-                    } else if (mapV.getSingleElement(i, j) == Map.G) {
-                        label.setIcon(grassImg);
-                    } else if (mapV.getSingleElement(i, j) == Map.S) {
-                        label.setIcon(stoneImg);
-                    } else if (mapV.getSingleElement(i, j) == Map.M) {
-                        label.setIcon(markImg);
-                    } else if (mapV.getSingleElement(i, j) == Map.C) {
-                        for (int k = 0; k < mapV.getCrates().size(); k++) {
-                            Crate element = mapV.getCrates().get(k);
-                            if (element.getRowPos() == i && element.getColPos() == j) {
-                                if (element.IsOnMark == false) {
-                                    label.setIcon(crateImg);
-
-                                } else if (element.IsOnMark) {
-                                    label.setIcon(cratemImg);
-                                }
+                            } else if (element.IsOnMark) {
+                                label.setIcon(cratemImg);
                             }
                         }
                     }
-                    label.setHorizontalAlignment(SwingConstants.CENTER);
-                    label.setVerticalAlignment(SwingConstants.CENTER);
-                    gridPanel.add(label);
                 }
+                label.setHorizontalAlignment(SwingConstants.CENTER);
+                label.setVerticalAlignment(SwingConstants.CENTER);
+                gridPanel.add(label);
             }
-            frame.setVisible(true);
         }
-    };
-    private View view;
+        frame.setVisible(true);
+    }
+
+
+    /**
+     * Buttons
+     */
+    JButton LeftButton = new JButton("LEFT");
+    JButton RightButton = new JButton("RIGHT");
+    JButton DownButton = new JButton("DOWN");
+    JButton UpButton = new JButton("UP");
+
+    JPanel ButtonPanel = new JPanel();
+    JPanel BotPanel = new JPanel();
+
+    public void addButtons() {
+        LeftButton.addActionListener
+                (event -> {
+                    Controller.ButtonInput("LEFT");
+                    updateMap();
+                });
+        RightButton.addActionListener
+                (event -> {
+                    Controller.ButtonInput("RIGHT");
+                    updateMap();
+                });
+        DownButton.addActionListener
+                (event -> {
+                    Controller.ButtonInput("DOWN");
+                    updateMap();
+                });
+        UpButton.addActionListener
+                (event -> {
+                    Controller.ButtonInput("UP");
+                    updateMap();
+                });
+
+        ButtonPanel.setPreferredSize(new Dimension(150, 100));
+        ButtonPanel.setLayout(new BorderLayout());
+        ButtonPanel.add(DownButton, BorderLayout.PAGE_END);
+        ButtonPanel.add(UpButton, BorderLayout.PAGE_START);
+        ButtonPanel.add(LeftButton, BorderLayout.LINE_START);
+        ButtonPanel.add(RightButton, BorderLayout.LINE_END);
+
+        ButtonPanel.setFocusable(false);
+        LeftButton.setFocusable(false);
+        RightButton.setFocusable(false);
+        DownButton.setFocusable(false);
+        UpButton.setFocusable(false);
+        BotPanel.add(ButtonPanel, BorderLayout.CENTER);
+    }
+
 
     public View(Map m) {
         mapV = m;
     }
 
-
     public void graphics() {
-        int sqsize = 100;//length of the square
 
         //resize all the label so it's bigger label->image->resized image-> label resized
         Image imagecrate = crateImg.getImage(); // transform it
@@ -141,21 +187,24 @@ public class View {
                 label.setHorizontalAlignment(SwingConstants.CENTER);
                 label.setVerticalAlignment(SwingConstants.CENTER);
                 gridPanel.add(label);
-
             }
         }
+        frame.setPreferredSize(new Dimension(sqsize*Map.lvl1cols, (sqsize*Map.lvl1rows)+150));
+
+        frame.add(BotPanel,BorderLayout.PAGE_END);
+        BotPanel.setFocusable(false);
 
         frame.addKeyListener(listener);
+        frame.setFocusable(true);
+        frame.add(gridPanel,BorderLayout.PAGE_START);
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.add(gridPanel);
         frame.pack();
         frame.setVisible(true);
+
     }
 
     public void closeWindow() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 }
-
-
-
