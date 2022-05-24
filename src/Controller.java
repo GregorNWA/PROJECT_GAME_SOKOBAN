@@ -1,28 +1,27 @@
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
-    static int count = 1;
-    private static Map mapC;
-    private static View View;
+    private static int count = 1;
+    private  Map mapC;
+    private View View;
 
     private static List<ViewObserver> observers = new ArrayList<>();
 //Method for adding Observers
     //non static
     public Controller(Map m, View v) {
         mapC = m;
-        View = v;
+       this.View = v;
+        System.out.println("Map m: "+m);
+        System.out.println("View: "+v);
     }
 
     public void addObserver(ViewObserver viewObs){
         observers.add(viewObs);
     }
 
-    public static void directionInput(String direction) {
+    public void directionInput(String direction) {
+        System.out.println("mapc: "+ mapC);
         switch (direction) {
             case "LEFT" -> {
                 mapC.MoveLeft();
@@ -35,15 +34,16 @@ public class Controller {
         updateObservers();
     }
 
+    public void setController(Controller c){
+        c.mapC=mapC;
+        c.View= View;
+    }
 
-
-    public static void updateObservers(){
+    public  void updateObservers(){
         for(ViewObserver v: observers){
             v.updateMap();
         }
     }
-
-
 
     public void initMap(Map map) {
         map.initializePlayer(map);
@@ -55,7 +55,7 @@ public class Controller {
         View.graphics();
         View.addButtons();
     }
-    public static void checker() {
+    public  void checker() {
         switch (mapC.checkLevel()) {
             //Sout could be handeled my View
             case 2 -> {

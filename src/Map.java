@@ -108,11 +108,10 @@ public class Map {
         return Level_2;
     }
 
-
     //Initialize Map based on Matrix
     public void initializeMap(Map map) {
         map.setElements(Level_1);
-        mapM = map;
+        this.mapM = map;
     }
 
     public Player initializePlayer(Map mapM) {

@@ -16,20 +16,34 @@ public class View implements ViewObserver {
     JFrame frame = new JFrame("Key Listener");
     JPanel panel = (JPanel) frame.getContentPane();
     // View uses Swing framework to display UI to user
-    private final Map mapV;
+    Controller c;
+    public View(Map m) {
+        mapV=m;
+        System.out.println("View 2:"+ m);
+        System.out.println("View mapV 3:"+ mapV);
+        c=new Controller(m,viewV);
+    }
+
+    private Map mapV;
+    private View viewV;
+
     private int sqsize = 70;//length of the square
 
+    public void printMAPV(){
+        System.out.println("MAPV"+mapV);
+    }
 
     KeyListener listener = new KeyListener() {
         @Override
         public void keyPressed(KeyEvent event) {
             //Maybe create new COntroller controller before
             //Controller.directionInput(event);
+            System.out.println("print COntroller"+c);
             switch (event.getKeyCode()) {
-                case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> Controller.directionInput("RIGHT");
-                case KeyEvent.VK_LEFT, KeyEvent.VK_A -> Controller.directionInput("LEFT");
-                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> Controller.directionInput("DOWN");
-                case KeyEvent.VK_UP, KeyEvent.VK_W -> Controller.directionInput("UP");
+                case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> c.directionInput("RIGHT");
+                case KeyEvent.VK_LEFT, KeyEvent.VK_A -> c.directionInput("LEFT");
+                case KeyEvent.VK_DOWN, KeyEvent.VK_S -> c.directionInput("DOWN");
+                case KeyEvent.VK_UP, KeyEvent.VK_W -> c.directionInput("UP");
             }
         }
         @Override
@@ -94,19 +108,19 @@ public class View implements ViewObserver {
     public void addButtons() {
         LeftButton.addActionListener
                 (event -> {
-                    Controller.directionInput("LEFT");
+                    c.directionInput("LEFT");
                 });
         RightButton.addActionListener
                 (event -> {
-                    Controller.directionInput("RIGHT");
+                    c.directionInput("RIGHT");
                 });
         DownButton.addActionListener
                 (event -> {
-                    Controller.directionInput("DOWN");
+                    c.directionInput("DOWN");
                 });
         UpButton.addActionListener
                 (event -> {
-                    Controller.directionInput("UP");
+                    c.directionInput("UP");
                 });
 
         ButtonPanel.setPreferredSize(new Dimension(150, 100));
@@ -125,9 +139,7 @@ public class View implements ViewObserver {
     }
 
 
-    public View(Map m) {
-        mapV = m;
-    }
+
 
     public void graphics() {
 
