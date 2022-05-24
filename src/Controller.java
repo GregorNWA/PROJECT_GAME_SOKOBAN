@@ -10,16 +10,16 @@ public class Controller {
     private static Map mapC;
     private static View View;
 
-    private static List<ViewObserver> observers;
-
+    private static List<ViewObserver> observers = new ArrayList<>();
+//Method for adding Observers
+    //non static
     public Controller(Map m, View v) {
-        ViewConsole vc=new ViewConsole(m);
         mapC = m;
         View = v;
-        observers=new ArrayList<>();
-        observers.add(View);
-        observers.add(vc);
+    }
 
+    public void addObserver(ViewObserver viewObs){
+        observers.add(viewObs);
     }
 
     public static void directionInput(String direction) {
@@ -42,6 +42,8 @@ public class Controller {
             v.updateMap();
         }
     }
+
+
 
     public void initMap(Map map) {
         map.initializePlayer(map);

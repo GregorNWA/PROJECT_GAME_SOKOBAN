@@ -4,12 +4,17 @@ public class Runner {
         //automatic matrix size recognition
         Map MAP = new Map(Map.lvl1rows,Map.lvl1cols);
         MAP.initializeMap(MAP);
+
+        //Views
         View view = new View(MAP);
+        ViewConsole vc = new ViewConsole(MAP);
+
         Controller control = new Controller(MAP,view);
-        System.out.println(MAP);
-        //.directionInput();
         control.initMap(MAP);
         control.initView();
-        //System.out.println(MAP);
+        //Add views
+        control.addObserver(view);
+        control.addObserver(vc);
+
     }
 }

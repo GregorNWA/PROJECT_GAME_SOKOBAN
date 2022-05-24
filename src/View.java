@@ -17,7 +17,7 @@ public class View implements ViewObserver {
     JPanel panel = (JPanel) frame.getContentPane();
     // View uses Swing framework to display UI to user
     private final Map mapV;
-    int sqsize = 80;//length of the square
+    private int sqsize = 70;//length of the square
 
 
     KeyListener listener = new KeyListener() {
@@ -31,7 +31,6 @@ public class View implements ViewObserver {
                 case KeyEvent.VK_DOWN, KeyEvent.VK_S -> Controller.directionInput("DOWN");
                 case KeyEvent.VK_UP, KeyEvent.VK_W -> Controller.directionInput("UP");
             }
-
         }
         @Override
         public void keyReleased(KeyEvent event) {
