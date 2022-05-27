@@ -1,6 +1,7 @@
 public class Player {
-    int rowPos;
-    int colPos;
+    //Player's arguments
+    private int rowPos;
+    private int colPos;
     boolean IsOnMark;
 
     public Player(int new_rowPos,int new_colPos, boolean IsOnMark){
