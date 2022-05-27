@@ -6,7 +6,6 @@ public class Runner {
         MAP.initializeMap(MAP);
 
         //Views
-        System.out.println("PRINT 1:. "+MAP);
         View view = new View(MAP);
         ViewConsole vc = new ViewConsole(MAP);
 
@@ -16,7 +15,6 @@ public class Runner {
         //Add views
         control.addObserver(view);
         control.addObserver(vc);
-        view.printMAPV();
 
     }
 }

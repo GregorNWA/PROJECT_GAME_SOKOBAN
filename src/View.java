@@ -13,14 +13,13 @@ public class View implements ViewObserver {
     ImageIcon cratemImg = new ImageIcon("cratemarked.png");
     ImageIcon markImg = new ImageIcon("blankmarked.png");
 
-    JFrame frame = new JFrame("Key Listener");
+    static JFrame frame = new JFrame("Key Listener");
     JPanel panel = (JPanel) frame.getContentPane();
     // View uses Swing framework to display UI to user
     Controller c;
+
     public View(Map m) {
         mapV=m;
-        System.out.println("View 2:"+ m);
-        System.out.println("View mapV 3:"+ mapV);
         c=new Controller(m,viewV);
     }
 
@@ -37,8 +36,6 @@ public class View implements ViewObserver {
         @Override
         public void keyPressed(KeyEvent event) {
             //Maybe create new COntroller controller before
-            //Controller.directionInput(event);
-            System.out.println("print COntroller"+c);
             switch (event.getKeyCode()) {
                 case KeyEvent.VK_RIGHT, KeyEvent.VK_D -> c.directionInput("RIGHT");
                 case KeyEvent.VK_LEFT, KeyEvent.VK_A -> c.directionInput("LEFT");
@@ -217,7 +214,7 @@ public class View implements ViewObserver {
 
     }
 
-    public void closeWindow() {
+    public  void closeWindow() {
         frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
     }
 }
