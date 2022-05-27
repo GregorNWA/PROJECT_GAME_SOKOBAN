@@ -1,4 +1,5 @@
 public class Player {
+    //Player's arguments
     private int rowPos;
     private int colPos;
     boolean IsOnMark;
